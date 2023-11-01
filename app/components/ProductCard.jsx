@@ -5,7 +5,7 @@ export default function ProductCard({product}) {
   const isDiscounted = compareAtPrice?.amount > price?.amount;
 
   return (
-    <Link to={`/products/${product.handle}`}>
+    <Link to={`https://drc-auto-dev.myshopify.com//products/${product.handle}`}>
       <div className="grid gap-6">
         <div className="shadow-sm rounded relative">
           {isDiscounted && (

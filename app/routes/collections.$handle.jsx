@@ -1,8 +1,9 @@
 import { useLoaderData } from '@remix-run/react';
 import { json } from '@shopify/remix-oxygen';
-import ProductCard from '~/components/ProductCard';
-
+import ProductSorting from '~/components/ProductSorting';
 import ProductGrid from '../components/ProductGrid';
+import { useState } from "react";
+
 
 export const handle = {
   seo,
@@ -51,9 +52,45 @@ export async function loader({ params, context }) {
 
 export default function Collection() {
   const { products } = useLoaderData();
-console.log(products);
+
+  const [sort, setSort] = useState("nejnovejsi") 
+  console.log(sort);
+
+
+
+    function onChangeHadler(event){
+        setSort(event.target.value)
+      }
+
+      switch (sort){
+        case "najezd":
+          products.sort((a,b)=>a.metafields[3].value - b.metafields[3].value )
+          break;
+        
+        case "nejnovejsi":
+         
+          products.sort((a,b)=>{
+            const timeA = new Date(a.publishedAt).getTime()
+            const timeB = new Date(b.publishedAt).getTime()
+            if(timeA == timeB){
+              return a.metafields[3].value - b.metafields[3].value
+            }else{
+              return timeB - timeA} 
+            }
+              )
+          break;
+
+        default:
+          console.log("bez změny");
+      }
+
+      console.log(products);
+      
+      
+
   return (
     <div>
+      <ProductSorting onChange={onChangeHadler}/>
       <ProductGrid products={products}/>
 
     </div>
@@ -72,6 +109,15 @@ const COLLECTION_QUERY = `#graphql
           title
           publishedAt
           handle
+          metafields (identifiers: [ 
+            {namespace: "custom", key: "v_robce"},
+            {namespace: "custom", key: "model"},
+            {namespace: "parameters", key: "condition"},
+            {namespace: "parameters", key: "mileage"},
+            ]) {
+              key
+              value
+            }
           variants(first: 1) {
             nodes {
               id
