@@ -1,6 +1,6 @@
 import { useLoaderData } from '@remix-run/react';
 import { json } from '@shopify/remix-oxygen';
-import ProductSorting from '~/components/ProductSorting';
+import ProductFilter from '~/components/ProductFilter';
 import ProductGrid from '../components/ProductGrid';
 import { useState } from "react";
 
@@ -19,9 +19,12 @@ function seo({ data }) {
 export async function loader({ params, context }) {
   const { handle } = params;
 
+  //const [filter, setFilter] = useState(""); 
+
   const productsPerPage = 250; // Počet produktů na stránku
   let products = [];
   let cursor = null;
+  let collectionFilters;
 
   while (true) {
     const { collection } = await context.storefront.query(COLLECTION_QUERY, {
@@ -43,56 +46,22 @@ export async function loader({ params, context }) {
     }
 
     cursor = collection.products.pageInfo.endCursor;
+    collectionFilters = collection.products.filters;
   }
 
   return json({
     products,
+    collectionFilters
   });
 }
 
 export default function Collection() {
-  const { products } = useLoaderData();
-
-  const [sort, setSort] = useState("nejnovejsi") 
-  console.log(sort);
-
-
-
-    function onChangeHadler(event){
-        setSort(event.target.value)
-      }
-
-      switch (sort){
-        case "najezd":
-          products.sort((a,b)=>a.metafields[3].value - b.metafields[3].value )
-          break;
-        
-        case "nejnovejsi":
-         
-          products.sort((a,b)=>{
-            const timeA = new Date(a.publishedAt).getTime()
-            const timeB = new Date(b.publishedAt).getTime()
-            if(timeA == timeB){
-              return a.metafields[3].value - b.metafields[3].value
-            }else{
-              return timeB - timeA} 
-            }
-              )
-          break;
-
-        default:
-          console.log("bez změny");
-      }
-
-      console.log(products);
-      
-      
+  const { products, collectionFilters } = useLoaderData();
 
   return (
-    <div>
-      <ProductSorting onChange={onChangeHadler}/>
+    <div className='flex gap-3'>
+      <ProductFilter filters={collectionFilters}/>
       <ProductGrid products={products}/>
-
     </div>
   );
 }
@@ -104,6 +73,17 @@ const COLLECTION_QUERY = `#graphql
       title
       description
       products(first: $first, after: $after) {
+        filters {
+        id
+        label
+        type
+        values {
+          id
+          label
+          count
+          input
+        }
+      }
         nodes {
           id
           title
