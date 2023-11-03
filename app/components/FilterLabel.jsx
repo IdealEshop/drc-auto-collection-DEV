@@ -1,18 +1,23 @@
-export default function FilterLabel({filter}) {
-  console.log(filter);
-  
-    return (
-      <div className="flex flex-col gap-3">
-        {filter.label}
-        <div>
-          {filter.values.map((value)=>(
-            <div className="flex gap-1">
-              <input id="{value.id}" type="checkbox"/>
-              <label htmlFor="{value.id}">{value.label} ({value.count})</label>
+export default function FilterLabel({filter, setFilter}) {
 
-            </div>
+  function onFilterset(event){
+    if(event.target.checked){
+      setFilter(event.target);
+    }
+  }
+ 
+    return (
+      <div className="flex flex-col gap-2 pb-3">
+        {filter.label}
+        <ul>
+          {filter.values.map((value)=>(
+            <li className="flex gap-1" key={value.id}>
+              <input id={value.id} type="checkbox" onChange={onFilterset}/>
+              <label htmlFor={value.id}>{value.label} ({value.count})</label>
+
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     );
   }

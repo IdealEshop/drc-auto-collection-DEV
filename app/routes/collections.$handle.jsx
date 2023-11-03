@@ -57,12 +57,29 @@ export async function loader({ params, context }) {
 
 export default function Collection() {
   const { products, collectionFilters } = useLoaderData();
+  const [filters, setFilters] = useState([])
+
+
+  function setFiltersHandler(eventTarget){
+    const eventFilterId = eventTarget.id
+    const filterId = eventFilterId.slice(0, eventFilterId.lastIndexOf('.'));
+    const mathFilter = collectionFilters.find((filter)=>filter.id==filterId).values.find((value)=>value.id == eventFilterId).label
+    const filteredProducts = products.filter((product)=>{product.metafields[0].value == mathFilter})
+    
+    console.log(filteredProducts)
+    
+    
+
+    console.log(products);
+    console.log(collectionFilters);
+  }
+
 
   return (
-    <div className='flex gap-3'>
-      <ProductFilter filters={collectionFilters}/>
+    <section className='flex gap-3 page-width'>
+      <ProductFilter filters={collectionFilters} setFilter={setFiltersHandler}/>
       <ProductGrid products={products}/>
-    </div>
+    </section>
   );
 }
 
