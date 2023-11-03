@@ -57,7 +57,8 @@ export default function Collection() {
   
   const { products, collectionFilters } = useLoaderData();
   const [filters, setFilters] = useState()
-  console.log(products);
+  const [filteredCars, setFilteredCars] = useState(products);
+
   useMemo(() => {
     let carFilters = {};
     products.forEach(product => {
@@ -81,22 +82,20 @@ export default function Collection() {
   },[]);
 
   function setFiltersHandler(eventTarget){
-    // const eventFilterId = eventTarget.id
-    // const filterId = eventFilterId.slice(0, eventFilterId.lastIndexOf('.'));
-    // const mathFilter = collectionFilters.find((filter)=>filter.id==filterId).values.find((value)=>value.id == eventFilterId).label
-    // const filteredProducts = products.filter((product)=>{product.metafields[0].value == mathFilter})
-    // console.log(filteredProducts)
-   
-    // console.log(collectionFilters);
-    
-    
+    if(eventTarget.checked){
+      const filteredCars = products.filter((product)=>product.metafields[0].value == eventTarget.id)
+      setFilteredCars(filteredCars);
+    } else {
+      setFilteredCars(products);
+    }
+  
   }
-  console.log(collectionFilters);
+
 
   return (
     <section className='flex gap-3 page-width'>
       <ProductFilter filters={filters} originFilters={collectionFilters} setFilter={setFiltersHandler}/>
-      <ProductGrid products={products}/>
+      <ProductGrid products={filteredCars}/>
     </section>
   );
 }
