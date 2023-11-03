@@ -129,6 +129,7 @@ const COLLECTION_QUERY = `#graphql
             {namespace: "custom", key: "model"},
             {namespace: "parameters", key: "condition"},
             {namespace: "parameters", key: "mileage"},
+            {namespace: "parameters", key: "year_production"},
             ]) {
               key
               value

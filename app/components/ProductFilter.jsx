@@ -18,7 +18,7 @@ export default function ProductFilter({filters, setFilter, originFilters}) {
         </div>
         <div className="flex flex-col">
         {filters.map((filter)=>(
-            <FilterLabel filter={filter} key={filter.key} originFilters={originFilters} setFilter={setFilter}/>
+            filter.key !="year_production" ? <FilterLabel filter={filter} key={filter.key} originFilters={originFilters} setFilter={setFilter}/> : ""
           ))}
           
         </div>

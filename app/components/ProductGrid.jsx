@@ -39,6 +39,23 @@ export default function ProductGrid({products}) {
       products.sort((a,b)=>b.metafields[3].value - a.metafields[3].value )
       break;
 
+    case "year-youngh":
+      products.sort((a,b)=>{
+        const timeA = new Date(a.metafields[4].value).getTime()
+        const timeB = new Date(b.metafields[4].value).getTime()
+        return timeB - timeA
+      })
+      break;
+
+    case "year-old":
+      products.sort((a,b)=>{
+        const timeA = new Date(a.metafields[4].value).getTime()
+        const timeB = new Date(b.metafields[4].value).getTime()
+        return timeA - timeB
+      })
+      
+      break;
+
     case "nejnovejsi":
      
       products.sort((a,b)=>{

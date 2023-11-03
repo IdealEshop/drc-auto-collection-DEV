@@ -8,12 +8,9 @@ export default function FilterLabel({filter, setFilter, originFilters}) {
 
   function getLabel(filter){
     let label;
-    console.log(filter.key);
     originFilters.forEach((originFilter)=>{
       if(originFilter.id.slice(originFilter.id.lastIndexOf(".")+1) == filter.key){
-         label=originFilter.label;
-         console.log("shoda");
-         
+         label=originFilter.label;       
       } else if(originFilter.id.slice(originFilter.id.lastIndexOf(".")+1) == "n_jezd_pro_filtr" && filter.key=="mileage") {
         label="Nájezd"
       }
@@ -21,8 +18,9 @@ export default function FilterLabel({filter, setFilter, originFilters}) {
     })
     return label;
   }
+  console.log(filter);
 
-   
+     
     return (
       <div className="flex flex-col gap-2 pb-3">
         {getLabel(filter)}
@@ -37,6 +35,7 @@ export default function FilterLabel({filter, setFilter, originFilters}) {
             ))
           
           :
+          
           filter.values.sort().map((value)=>(
             <li className="flex gap-1" key={`${filter.key}.${value}`}>
               <input id={value} type="checkbox" onChange={onFilterset}/>

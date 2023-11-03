@@ -21,12 +21,12 @@ export default function ProductSorting({onChange, sort}) {
                 Rok výroby-nejstarší
             </option>
 
-            <option value="najezd">
+            {/* <option value="najezd">
                 Abecedně A-Z
             </option>
             <option value="najezd">
                 Abecedně Z-A
-            </option>
+            </option> */}
         </select>
       </div>
     );
