@@ -4,10 +4,7 @@ import {Aside} from '~/components/Aside';
 import {Footer} from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header';
 import {CartMain} from '~/components/Cart';
-import {
-  PredictiveSearchForm,
-  PredictiveSearchResults,
-} from '~/components/Search';
+
 
 /**
  * @param {LayoutProps}
@@ -16,8 +13,8 @@ export function Layout({cart, children = null, footer, header, isLoggedIn}) {
   return (
     <>
       <CartAside cart={cart} />
-      <SearchAside />
-      <MobileMenuAside menu={header.menu} />
+      {/* <SearchAside />
+      <MobileMenuAside menu={header.menu} /> */}
       <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />
       <main>{children}</main>
       <Suspense>

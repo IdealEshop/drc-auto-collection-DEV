@@ -56,22 +56,34 @@ export async function loader({ params, context }) {
 }
 
 export default function Collection() {
+  let carFilters={};
   const { products, collectionFilters } = useLoaderData();
   const [filters, setFilters] = useState([])
+  console.log(products);
 
 
   function setFiltersHandler(eventTarget){
-    const eventFilterId = eventTarget.id
-    const filterId = eventFilterId.slice(0, eventFilterId.lastIndexOf('.'));
-    const mathFilter = collectionFilters.find((filter)=>filter.id==filterId).values.find((value)=>value.id == eventFilterId).label
-    const filteredProducts = products.filter((product)=>{product.metafields[0].value == mathFilter})
-    
-    console.log(filteredProducts)
-    
-    
-
-    console.log(products);
-    console.log(collectionFilters);
+    // const eventFilterId = eventTarget.id
+    // const filterId = eventFilterId.slice(0, eventFilterId.lastIndexOf('.'));
+    // const mathFilter = collectionFilters.find((filter)=>filter.id==filterId).values.find((value)=>value.id == eventFilterId).label
+    // const filteredProducts = products.filter((product)=>{product.metafields[0].value == mathFilter})
+    // console.log(filteredProducts)
+   
+    // console.log(collectionFilters);
+    products.forEach(product => {
+      product.metafields.forEach(metafield=>{
+        if(carFilters[metafield.key]){
+          if(!carFilters[metafield.key].includes(metafield.value))
+          carFilters[metafield.key].push(metafield.value)
+        } else {
+          carFilters[metafield.key]=[]
+        }
+        
+      })
+      
+      
+    });
+    console.log(carFilters);
   }
 
 
