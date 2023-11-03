@@ -2,7 +2,7 @@ import { useLoaderData } from '@remix-run/react';
 import { json } from '@shopify/remix-oxygen';
 import ProductFilter from '~/components/ProductFilter';
 import ProductGrid from '../components/ProductGrid';
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 
 export const handle = {
@@ -18,8 +18,6 @@ function seo({ data }) {
 
 export async function loader({ params, context }) {
   const { handle } = params;
-
-  //const [filter, setFilter] = useState(""); 
 
   const productsPerPage = 250; // Počet produktů na stránku
   let products = [];
@@ -56,11 +54,31 @@ export async function loader({ params, context }) {
 }
 
 export default function Collection() {
-  let carFilters={};
+  
   const { products, collectionFilters } = useLoaderData();
-  const [filters, setFilters] = useState([])
+  const [filters, setFilters] = useState()
   console.log(products);
-
+  useMemo(() => {
+    let carFilters = {};
+    products.forEach(product => {
+      product.metafields.forEach(metafield => {
+        if (carFilters[metafield.key]) {
+          if (!carFilters[metafield.key].values.includes(metafield.value)) {
+            carFilters[metafield.key].values.push(metafield.value);
+          }
+        } else {
+          carFilters[metafield.key] = {
+            key: metafield.key,
+            values: [metafield.value],
+          };
+        }
+      });
+    });
+       
+    const carFiltersArray = Object.values(carFilters);
+    
+    setFilters(carFiltersArray);
+  },[]);
 
   function setFiltersHandler(eventTarget){
     // const eventFilterId = eventTarget.id
@@ -70,26 +88,14 @@ export default function Collection() {
     // console.log(filteredProducts)
    
     // console.log(collectionFilters);
-    products.forEach(product => {
-      product.metafields.forEach(metafield=>{
-        if(carFilters[metafield.key]){
-          if(!carFilters[metafield.key].includes(metafield.value))
-          carFilters[metafield.key].push(metafield.value)
-        } else {
-          carFilters[metafield.key]=[]
-        }
-        
-      })
-      
-      
-    });
-    console.log(carFilters);
+    
+    
   }
-
+  console.log(collectionFilters);
 
   return (
     <section className='flex gap-3 page-width'>
-      <ProductFilter filters={collectionFilters} setFilter={setFiltersHandler}/>
+      <ProductFilter filters={filters} originFilters={collectionFilters} setFilter={setFiltersHandler}/>
       <ProductGrid products={products}/>
     </section>
   );

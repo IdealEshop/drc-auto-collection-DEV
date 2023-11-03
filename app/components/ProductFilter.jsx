@@ -1,12 +1,13 @@
 import FilterLabel from "./FilterLabel";
 
-export default function ProductFilter({filters, setFilter}) {
+export default function ProductFilter({filters, setFilter, originFilters}) {
+  
     
   
     return (
   
       <section className="flex flex-col w-[307px] pt-[87px]">
-        <div className="w-full flex justify-between">
+        <div className="w-full flex justify-between py-8">
           <span>Parametry</span>
           <button type="button" className="flex gap-2">
             <span className="text-[#5A2382] text-[15px] underline">Vyčistit</span> 
@@ -16,9 +17,10 @@ export default function ProductFilter({filters, setFilter}) {
           </button>
         </div>
         <div className="flex flex-col">
-          {filters.map((filter)=>(
-            <FilterLabel filter={filter} key={filter.id} setFilter={setFilter}/>
+        {filters.map((filter)=>(
+            <FilterLabel filter={filter} key={filter.key} originFilters={originFilters} setFilter={setFilter}/>
           ))}
+          
         </div>
         
       </section>
