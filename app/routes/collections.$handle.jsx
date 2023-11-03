@@ -82,8 +82,23 @@ export default function Collection() {
   },[]);
 
   function setFiltersHandler(eventTarget){
+    let metafieldIndex;
+    switch (eventTarget.dataset.key) {
+      case "v_robce":
+        metafieldIndex=0;
+        break;
+
+      case "model":
+        metafieldIndex=1;
+        break;
+    
+      default:
+        break;
+    }
+    console.log(products);
+
     if(eventTarget.checked){
-      const filteredCars = products.filter((product)=>product.metafields[0].value == eventTarget.id)
+      const filteredCars = products.filter((product)=>product.metafields[metafieldIndex].value == eventTarget.id)
       setFilteredCars(filteredCars);
     } else {
       setFilteredCars(products);

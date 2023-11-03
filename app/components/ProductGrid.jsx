@@ -70,6 +70,7 @@ export default function ProductGrid({products}) {
       break;
 
     default:
+      break;
     
   }
 
