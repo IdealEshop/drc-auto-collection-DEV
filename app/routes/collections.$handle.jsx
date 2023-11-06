@@ -95,14 +95,50 @@ export default function Collection() {
       default:
         break;
     }
-    console.log(products);
+ 
+    let checkedInputs={};
+    const inputs = document.querySelectorAll(".filter-input");
+    inputs.forEach((input)=>{
+     if(input.checked){
+      if(checkedInputs[input.dataset.key]){
+        checkedInputs[input.dataset.key].values.push(input.id);
 
-    if(eventTarget.checked){
-      const filteredCars = products.filter((product)=>product.metafields[metafieldIndex].value == eventTarget.id)
+      } else {
+        checkedInputs[input.dataset.key]={
+          key:input.dataset.key,
+          values:[input.id]
+        }
+      }      
+     } else {
+      if(checkedInputs[input.dataset.key]){
+        if(checkedInputs[input.dataset.key].values.indexOf(input.id) > 1){
+          const index = checkedInputs[input.dataset.key].values.indexOf(input.id)
+          checkedInputs[input.dataset.key].values.splice(index,1);
+        }
+       }
+      }
+      
+     
+
+    })
+
+    if(Object.keys(checkedInputs).length != 0){
+      const filteredCars = products.filter((product)=>{
+        return checkedInputs["v_robce"].values.includes(product.metafields[0].value)
+      });
+      console.log(filteredCars);
       setFilteredCars(filteredCars);
     } else {
-      setFilteredCars(products);
+      setFilteredCars(products)
     }
+    
+
+    // if(eventTarget.checked){
+    //   const filteredCars = products.filter((product)=>product.metafields[metafieldIndex].value == eventTarget.id)
+    //   setFilteredCars(filteredCars);
+    // } else {
+    //   setFilteredCars(products);
+    // }
   
   }
 

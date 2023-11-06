@@ -26,7 +26,7 @@ export default function FilterLabel({filter, setFilter, originFilters}) {
           getLabel(filter)== "Nájezd" ? 
             originFilters[3].values.map((value)=>(
               <li className="flex gap-1" key={value.id}>
-                <input id={value.id}  type="checkbox" onChange={onFilterset}/>
+                <input className="filter-input" id={value.id}  type="checkbox" onChange={onFilterset}/>
                 <label htmlFor={value.id}>{value.label}</label>
               </li>
 
@@ -36,7 +36,7 @@ export default function FilterLabel({filter, setFilter, originFilters}) {
           
           filter.values.sort().map((value)=>(
             <li className="flex gap-1" key={`${filter.key}.${value}`}>
-              <input id={value} data-key={filter.key} type="checkbox" onChange={onFilterset}/>
+              <input id={value} className="filter-input" data-key={filter.key} type="checkbox" onChange={onFilterset}/>
               <label htmlFor={value}>{value}</label>
 
             </li>
