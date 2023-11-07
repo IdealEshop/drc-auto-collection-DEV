@@ -66,9 +66,8 @@ export default function Collection() {
 
 
   // Vytvoří filtry dle metafiledů dostupných aut
-  function renderFilters(cars, eventKey, checkedInputs){
+  function renderFilters(cars, checkedInputs){
     let carFilters = {};
-    console.log(eventKey)
     cars.forEach(product => {
       product.metafields.forEach(metafield => {
         if (carFilters[metafield.key]) {
@@ -169,7 +168,7 @@ export default function Collection() {
         return checkedInputs[key].includes(product.metafields[metafieldIndex].value)
       });
       setFilteredCars(filteredCars);
-      renderFilters(filteredCars, event.target.dataset.key, checkedInputs)
+      renderFilters(filteredCars, checkedInputs)
     })
   } else {
     //Pokud není žádný filtr zaškrtnut, zobrazuej všechny produkty.
