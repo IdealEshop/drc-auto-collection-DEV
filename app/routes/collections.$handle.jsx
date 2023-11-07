@@ -101,45 +101,48 @@ export default function Collection() {
     inputs.forEach((input)=>{
      if(input.checked){
       if(checkedInputs[input.dataset.key]){
-        checkedInputs[input.dataset.key].values.push(input.id);
+        checkedInputs[input.dataset.key].push(input.id);
 
       } else {
-        checkedInputs[input.dataset.key]={
-          key:input.dataset.key,
-          values:[input.id]
-        }
+        checkedInputs[input.dataset.key]=[input.id]
+        
       }      
      } else {
       if(checkedInputs[input.dataset.key]){
-        if(checkedInputs[input.dataset.key].values.indexOf(input.id) > 1){
-          const index = checkedInputs[input.dataset.key].values.indexOf(input.id)
-          checkedInputs[input.dataset.key].values.splice(index,1);
+        if(checkedInputs[input.dataset.key].indexOf(input.id) > 1){
+          const index = checkedInputs[input.dataset.key].indexOf(input.id)
+          checkedInputs[input.dataset.key].splice(index,1);
         }
        }
       }
-      
-     
-
     })
 
-    if(Object.keys(checkedInputs).length != 0){
-      const filteredCars = products.filter((product)=>{
-        return checkedInputs["v_robce"].values.includes(product.metafields[0].value)
-      });
-      console.log(filteredCars);
-      setFilteredCars(filteredCars);
-    } else {
-      setFilteredCars(products)
-    }
     
-
-    // if(eventTarget.checked){
-    //   const filteredCars = products.filter((product)=>product.metafields[metafieldIndex].value == eventTarget.id)
+    // if(Object.keys(checkedInputs).length != 0){
+    //   const filteredCars = products.filter((product)=>{
+    //     return checkedInputs["v_robce"].includes(product.metafields[0].value)
+    //   });
     //   setFilteredCars(filteredCars);
     // } else {
-    //   setFilteredCars(products);
+    //   setFilteredCars(products)
     // }
-  
+    
+    console.log(checkedInputs);
+
+    if(Object.keys(checkedInputs).length != 0){
+      let filteredCars = products;
+    Object.keys(checkedInputs).forEach((key, index)=>{
+      filteredCars = filteredCars.filter((product)=>{
+        return checkedInputs[key].includes(product.metafields[index].value)
+      });
+      setFilteredCars(filteredCars);
+
+      console.log(checkedInputs[key], index);
+    })
+  } else {
+    setFilteredCars(products)
+  }
+
   }
 
 
