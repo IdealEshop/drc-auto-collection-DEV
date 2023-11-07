@@ -3,6 +3,7 @@ import { json } from '@shopify/remix-oxygen';
 import ProductFilter from '~/components/ProductFilter';
 import ProductGrid from '../components/ProductGrid';
 import { useState, useMemo } from "react";
+import { useEffect } from 'react';
 
 
 export const handle = {
@@ -40,7 +41,7 @@ export async function loader({ params, context }) {
     products = products.concat(collection.products.nodes);
 
     if (!collection.products.pageInfo.hasNextPage) {
-      break; // Zastavit načítání, pokud není další stránka
+      break;
     }
 
     cursor = collection.products.pageInfo.endCursor;
@@ -60,8 +61,15 @@ export default function Collection() {
   const [filteredCars, setFilteredCars] = useState(products);
 
   useMemo(() => {
+    renderFilters(products)
+  },[]);
+
+
+  // Vytvoří filtry dle metafiledů dostupných aut
+  function renderFilters(cars, eventKey, checkedInputs){
     let carFilters = {};
-    products.forEach(product => {
+    console.log(eventKey)
+    cars.forEach(product => {
       product.metafields.forEach(metafield => {
         if (carFilters[metafield.key]) {
           if (!carFilters[metafield.key].values.includes(metafield.value)) {
@@ -75,27 +83,43 @@ export default function Collection() {
         }
       });
     });
+
        
     const carFiltersArray = Object.values(carFilters);
-    
-    setFilters(carFiltersArray);
-  },[]);
+    console.log(carFiltersArray);
 
-  function setFiltersHandler(eventTarget){
-    let metafieldIndex;
-    switch (eventTarget.dataset.key) {
-      case "v_robce":
-        metafieldIndex=0;
-        break;
 
-      case "model":
-        metafieldIndex=1;
-        break;
-    
-      default:
-        break;
+    // Pokud jsou filtry prázdné, vyplň je podle metadfieldů všech aut. - Inicializace před pervním renderem
+    if (!filters){
+      setFilters(carFiltersArray);
+    } else {
+      // Pokud se nejedná o první render
+      let filtersWithAllBrands=[];
+      
+      carFiltersArray.forEach((object,index)=>{
+        // Pro filtr značka nech všechny značky z dostuponých aut pokud je eventKey výrobce
+        if(index == 0 && checkedInputs?.hasOwnProperty("v_robce")){
+          filtersWithAllBrands[index] = filters[index]
+        } else if(index == 1 && checkedInputs?.hasOwnProperty("model")){
+          filtersWithAllBrands[index] = filters[index]
+        } else {
+
+          // Zbytek filtrů (model) uprav dle vyfiltrovaných značek
+          filtersWithAllBrands.push(object)
+          setFilters(filtersWithAllBrands);
+        }
+      })
+     
     }
- 
+    
+
+  }
+
+
+
+// Z inputů, které jsou check vytvoří objekt "checkedInputs", kde key je název souborů filtrů a array zaškrtnutých filtrů daného souboru. Například v_robce:[Audi, BMW]...
+  function setFiltersHandler(event){
+     
     let checkedInputs={};
     const inputs = document.querySelectorAll(".filter-input");
     inputs.forEach((input)=>{
@@ -117,30 +141,40 @@ export default function Collection() {
       }
     })
 
-    
-    // if(Object.keys(checkedInputs).length != 0){
-    //   const filteredCars = products.filter((product)=>{
-    //     return checkedInputs["v_robce"].includes(product.metafields[0].value)
-    //   });
-    //   setFilteredCars(filteredCars);
-    // } else {
-    //   setFilteredCars(products)
-    // }
-    
-    console.log(checkedInputs);
+    console.log(checkedInputs.hasOwnProperty("v_robce"));
 
+// Do proměnné filteredCars uloží všechny auta a postupně je profiltruje dle obsahu checkedInputs. 
     if(Object.keys(checkedInputs).length != 0){
       let filteredCars = products;
-    Object.keys(checkedInputs).forEach((key, index)=>{
+    Object.keys(checkedInputs).forEach((key)=>{
+
+      let metafieldIndex;
+
+      switch (key) {
+        case "v_robce":
+          metafieldIndex = 0
+          
+          break;
+        
+          case "model":
+            metafieldIndex = 1
+          break;
+      
+        default:
+          break;
+      }
+
+
       filteredCars = filteredCars.filter((product)=>{
-        return checkedInputs[key].includes(product.metafields[index].value)
+        return checkedInputs[key].includes(product.metafields[metafieldIndex].value)
       });
       setFilteredCars(filteredCars);
-
-      console.log(checkedInputs[key], index);
+      renderFilters(filteredCars, event.target.dataset.key, checkedInputs)
     })
   } else {
+    //Pokud není žádný filtr zaškrtnut, zobrazuej všechny produkty.
     setFilteredCars(products)
+    renderFilters(products)
   }
 
   }
