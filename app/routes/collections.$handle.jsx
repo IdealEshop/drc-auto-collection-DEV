@@ -79,7 +79,6 @@ export default function Collection() {
         
         if(input.id == value){
           input.checked = true;
-          console.log(input.checked);
         }
       })
     });
@@ -184,6 +183,10 @@ export default function Collection() {
         
           case "model":
             metafieldIndex = 1
+          break;
+
+          case "condition":
+            metafieldIndex = 2
           break;
       
         default:
