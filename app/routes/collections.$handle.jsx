@@ -61,31 +61,32 @@ export default function Collection() {
   const { products, collectionFilters } = useLoaderData();
   const [filters, setFilters] = useState()
   const [filteredCars, setFilteredCars] = useState(products);
-  const [selectedFilters, setSelectedFilters] = useState();
   const [searchParams, setSearchParams] = useSearchParams();
 
   useMemo(() => {
     renderFilters(products)
+    
   },[]);
 
   useEffect(()=>{
-    if(selectedFilters){
-      let urlFilter="";
-      Object.keys(selectedFilters).forEach((key)=>{
-        selectedFilters[key].forEach((value)=>{
-          urlFilter+=`${key}=${value}&`
-        })
+    lookforSearchParams();
+  },[])
+
+  function lookforSearchParams(){
+    const inputs = document.querySelectorAll(".filter-input");
+    searchParams.forEach((value, key) => {
+      inputs.forEach((input)=>{
         
+        if(input.id == value){
+          input.checked = true;
+        }
       })
-      setSearchParams(urlFilter)
-    }
+    });
+   
+    setFiltersHandler();
+  }
 
-    console.log(searchParams)
-    
-
-  },[selectedFilters])
-
-  
+   
 
   // Vytvoří filtry dle metafiledů dostupných aut
   function renderFilters(cars, checkedInputs){
@@ -138,6 +139,7 @@ export default function Collection() {
 
 // Z inputů, které jsou check vytvoří objekt "checkedInputs", kde key je název souborů filtrů hodnota je array zaškrtnutých filtrů daného souboru. Například v_robce:[Audi, BMW]...
   function setFiltersHandler(event){
+    
      
     let checkedInputs={};
     const inputs = document.querySelectorAll(".filter-input");
@@ -160,15 +162,19 @@ export default function Collection() {
       }
     })
 
-    setSelectedFilters(checkedInputs)
 
 // Do proměnné filteredCars uloží všechny auta a postupně je profiltruje dle obsahu checkedInputs. 
+    let urlFilter="";
     if(Object.keys(checkedInputs).length != 0){
       let filteredCars = products;
     Object.keys(checkedInputs).forEach((key)=>{
 
       let metafieldIndex;
-
+      
+      checkedInputs[key].forEach((value)=>{
+        urlFilter+=`${key}=${value}&`
+      })      
+      
       switch (key) {
         case "v_robce":
           metafieldIndex = 0
@@ -177,6 +183,10 @@ export default function Collection() {
         
           case "model":
             metafieldIndex = 1
+          break;
+
+          case "condition":
+            metafieldIndex = 2
           break;
       
         default:
@@ -195,6 +205,8 @@ export default function Collection() {
     setFilteredCars(products)
     renderFilters(products)
   }
+  setSearchParams(urlFilter)
+
 
   }
 
