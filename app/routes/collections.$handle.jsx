@@ -4,6 +4,8 @@ import ProductFilter from '~/components/ProductFilter';
 import ProductGrid from '../components/ProductGrid';
 import { useState, useMemo } from "react";
 import { useEffect } from 'react';
+import { useSearchParams } from '@remix-run/react';
+
 
 
 export const handle = {
@@ -59,11 +61,31 @@ export default function Collection() {
   const { products, collectionFilters } = useLoaderData();
   const [filters, setFilters] = useState()
   const [filteredCars, setFilteredCars] = useState(products);
+  const [selectedFilters, setSelectedFilters] = useState();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useMemo(() => {
     renderFilters(products)
   },[]);
 
+  useEffect(()=>{
+    if(selectedFilters){
+      let urlFilter="";
+      Object.keys(selectedFilters).forEach((key)=>{
+        selectedFilters[key].forEach((value)=>{
+          urlFilter+=`${key}=${value}&`
+        })
+        
+      })
+      setSearchParams(urlFilter)
+    }
+
+    console.log(searchParams)
+    
+
+  },[selectedFilters])
+
+  
 
   // Vytvoří filtry dle metafiledů dostupných aut
   function renderFilters(cars, checkedInputs){
@@ -85,8 +107,6 @@ export default function Collection() {
 
        
     const carFiltersArray = Object.values(carFilters);
-    console.log(carFiltersArray);
-
 
     // Pokud jsou filtry prázdné, vyplň je podle metadfieldů všech aut. - Inicializace před pervním renderem
     if (!filters){
@@ -116,7 +136,7 @@ export default function Collection() {
 
 
 
-// Z inputů, které jsou check vytvoří objekt "checkedInputs", kde key je název souborů filtrů a array zaškrtnutých filtrů daného souboru. Například v_robce:[Audi, BMW]...
+// Z inputů, které jsou check vytvoří objekt "checkedInputs", kde key je název souborů filtrů hodnota je array zaškrtnutých filtrů daného souboru. Například v_robce:[Audi, BMW]...
   function setFiltersHandler(event){
      
     let checkedInputs={};
@@ -140,7 +160,7 @@ export default function Collection() {
       }
     })
 
-    console.log(checkedInputs.hasOwnProperty("v_robce"));
+    setSelectedFilters(checkedInputs)
 
 // Do proměnné filteredCars uloží všechny auta a postupně je profiltruje dle obsahu checkedInputs. 
     if(Object.keys(checkedInputs).length != 0){
