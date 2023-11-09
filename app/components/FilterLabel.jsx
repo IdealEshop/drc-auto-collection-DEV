@@ -18,11 +18,12 @@ export default function FilterLabel({filter, setFilter, originFilters}) {
     return (
       <div className="flex flex-col gap-2 pb-3">
         {getLabel(filter)}
-        <ul>{
-          getLabel(filter)== "Nájezd" ? 
+        <ul>
+          {getLabel(filter)== "Nájezd" ? 
+
             originFilters[3].values.map((value)=>(
               <li className="flex gap-1" key={value.id}>
-                <input className="filter-input" id={value.id}  type="checkbox" onChange={setFilter}/>
+                <input className="filter-input" id={value.id.slice(value.id.lastIndexOf(".")+1)} data-key={"n_jezd_pro_filtr"}  type="checkbox" onChange={setFilter}/>
                 <label htmlFor={value.id}>{value.label}</label>
               </li>
 

@@ -165,6 +165,7 @@ export default function Collection() {
 
 // Do proměnné filteredCars uloží všechny auta a postupně je profiltruje dle obsahu checkedInputs. 
     let urlFilter="";
+
     if(Object.keys(checkedInputs).length != 0){
       let filteredCars = products;
     Object.keys(checkedInputs).forEach((key)=>{
@@ -181,26 +182,42 @@ export default function Collection() {
           
           break;
         
-          case "model":
-            metafieldIndex = 1
-          break;
+        case "model":
+          metafieldIndex = 1
+        break;
 
-          case "condition":
-            metafieldIndex = 2
-          break;
+        case "condition":
+          metafieldIndex = 2
+        break;
+
+        case "n_jezd_pro_filtr":
+          metafieldIndex = 3
+        break;
       
         default:
           break;
       }
 
-
-      filteredCars = filteredCars.filter((product)=>{
-        return checkedInputs[key].includes(product.metafields[metafieldIndex].value)
-      });
+        if(key != "n_jezd_pro_filtr"){
+          filteredCars = filteredCars.filter((product)=>{
+            return checkedInputs[key].includes(product.metafields[metafieldIndex].value)
+          });
+        } else {
+          const stringToNumber = checkedInputs[key].map(value=>parseInt(value.replace(/\D/g, '')))
+          const nejvyssiNajezd = Math.max.apply(null, stringToNumber);
+          checkedInputs[key].forEach((value)=>{
+      
+           if(!value.includes("nad")) filteredCars=filteredCars.filter(product=>product.metafields[metafieldIndex].value < nejvyssiNajezd)
+           else filteredCars=filteredCars.filter(product=>product.metafields[metafieldIndex].value > nejvyssiNajezd)
+          })
+        }
+      
       setFilteredCars(filteredCars);
       renderFilters(filteredCars, checkedInputs)
+      console.log(filteredCars)
     })
   } else {
+
     //Pokud není žádný filtr zaškrtnut, zobrazuej všechny produkty.
     setFilteredCars(products)
     renderFilters(products)
