@@ -1,4 +1,13 @@
+import { useState } from "react";
+
 export default function FilterLabel({filter, setFilter, originFilters}) {
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  function clickHandlerer(){
+    setIsOpen(!isOpen)
+
+  }
 
   function getLabel(filter){
     let label;
@@ -16,9 +25,14 @@ export default function FilterLabel({filter, setFilter, originFilters}) {
 
      
     return (
-      <div className="flex flex-col gap-2 pb-3">
-        {getLabel(filter)}
-        <ul>
+      <div className="flex flex-col gap-2 py-[1.5rem] border-b">
+        <p className="hover:underline cursor-pointer flex justify-between" onClick={clickHandlerer}>
+          {getLabel(filter)}
+          <svg aria-hidden="true" focusable="false" role="presentation" class={`icon icon-caret shrink-0 w-[10px] items-center ${isOpen ? "rotate-180" : ""}`} viewBox="0 0 10 6">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
+            </path></svg>
+          </p>
+        <ul className={`${isOpen ? "" : "hidden"}`}>
           {getLabel(filter)== "Nájezd" ? 
 
             originFilters[3].values.map((value)=>(
@@ -34,7 +48,7 @@ export default function FilterLabel({filter, setFilter, originFilters}) {
           filter.values.sort().map((value)=>(
             <li className="flex gap-1" key={`${filter.key}.${value}`}>
               <input id={value} className="filter-input" data-key={filter.key} type="checkbox" onChange={setFilter}/>
-              <label htmlFor={value}>{value}</label>
+              <label htmlFor={value}>{value.replace(/[\[\]"]/g, '')}</label>
 
             </li>
           ))}

@@ -93,34 +93,37 @@ export default function Collection() {
     let carFilters = {};
     cars.forEach(product => {
       product.metafields.forEach(metafield => {
-        if (carFilters[metafield.key]) {
-          if (!carFilters[metafield.key].values.includes(metafield.value)) {
-            carFilters[metafield.key].values.push(metafield.value);
+        if(metafield){
+          if (carFilters[metafield.key]) {
+            if (!carFilters[metafield.key].values.includes(metafield.value)) {
+               carFilters[metafield.key].values.push(metafield.value);
+             }
+          } else {
+            carFilters[metafield.key] = {
+              key: metafield?.key,
+              values: [metafield.value],
+            };
           }
-        } else {
-          carFilters[metafield.key] = {
-            key: metafield.key,
-            values: [metafield.value],
-          };
         }
+        
       });
     });
 
        
-    const carFiltersArray = Object.values(carFilters);
+    const filtersArrayByCars = Object.values(carFilters);
 
     // Pokud jsou filtry prázdné, vyplň je podle metadfieldů všech aut. - Inicializace před pervním renderem
     if (!filters){
-      setFilters(carFiltersArray);
+      setFilters(filtersArrayByCars);
     } else {
       // Pokud se nejedná o první render
       let filtersWithAllBrands=[];
       
-      carFiltersArray.forEach((object,index)=>{
+      filtersArrayByCars.forEach((object,index)=>{
         // Pro filtr značka nech všechny značky z dostuponých aut pokud je eventKey výrobce
-        if(index == 0 && checkedInputs?.hasOwnProperty("v_robce")){
+        if(index == 1 && checkedInputs?.hasOwnProperty("v_robce")){
           filtersWithAllBrands[index] = filters[index]
-        } else if(index == 1 && checkedInputs?.hasOwnProperty("model")){
+        } else if(index == 2 && checkedInputs?.hasOwnProperty("model")){
           filtersWithAllBrands[index] = filters[index]
         } else {
 
@@ -188,7 +191,7 @@ export default function Collection() {
 // Najezd pro filtr je custom filtr, který se názvem liší od metafieldu productu, proto je zde podmínka if
         if(key != "n_jezd_pro_filtr"){
           filteredCars = filteredCars.filter((product)=>{
-            return checkedInputs[key].includes(product.metafields[metafieldIndex].value)
+            return checkedInputs[key].includes(product.metafields[metafieldIndex]?.value)
           });
         } else {
 // Převede stringy nejvyšího nájezdu na čísla a vybere ten nejvyšší nájezd
@@ -214,14 +217,18 @@ export default function Collection() {
 
 //Nastaví url query podle vybraných inputů
   setSearchParams(urlFilter)
+  }
 
+  function clearFilters(){
+    inputs.forEach(input=>input.checked=false);
+    setFiltersHandler();
 
   }
 
 
   return (
     <section className='flex gap-3 page-width'>
-      <ProductFilter filters={filters} originFilters={collectionFilters} setFilter={setFiltersHandler}/>
+      <ProductFilter filters={filters} originFilters={collectionFilters} setFilter={setFiltersHandler} clearFilters={clearFilters}/>
       <ProductGrid products={filteredCars}/>
     </section>
   );
@@ -251,10 +258,15 @@ const COLLECTION_QUERY = `#graphql
           publishedAt
           handle
           metafields (identifiers: [ 
+            {namespace: "parameters", key: "condition"},
             {namespace: "custom", key: "v_robce"},
             {namespace: "custom", key: "model"},
-            {namespace: "parameters", key: "condition"},
             {namespace: "parameters", key: "mileage"},
+            {namespace: "custom", key: "karoserie"},
+            {namespace: "parameters", key: "fuel"},
+            {namespace: "parameters", key: "transmission"},
+            {namespace: "parameters", key: "drive"},
+            {namespace: "custom", key: "barva"},
             {namespace: "parameters", key: "year_production"},
             ]) {
               key
