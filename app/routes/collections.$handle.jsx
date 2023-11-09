@@ -203,16 +203,18 @@ export default function Collection() {
             return checkedInputs[key].includes(product.metafields[metafieldIndex].value)
           });
         } else {
+          const stringToNumber = checkedInputs[key].map(value=>parseInt(value.replace(/\D/g, '')))
+          const nejvyssiNajezd = Math.max.apply(null, stringToNumber);
           checkedInputs[key].forEach((value)=>{
-           const valueToNumber = parseInt(value.replace(/\D/g, ''));
-
-           if(!value.includes("nad")) filteredCars=filteredCars.filter(product=>product.metafields[metafieldIndex].value < valueToNumber)
-           else filteredCars=filteredCars.filter(product=>product.metafields[metafieldIndex].value > valueToNumber)
+      
+           if(!value.includes("nad")) filteredCars=filteredCars.filter(product=>product.metafields[metafieldIndex].value < nejvyssiNajezd)
+           else filteredCars=filteredCars.filter(product=>product.metafields[metafieldIndex].value > nejvyssiNajezd)
           })
         }
       
       setFilteredCars(filteredCars);
       renderFilters(filteredCars, checkedInputs)
+      console.log(filteredCars)
     })
   } else {
 
