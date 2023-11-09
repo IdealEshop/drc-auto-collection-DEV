@@ -28,8 +28,8 @@ export default function FilterLabel({filter, setFilter, originFilters}) {
       <div className="flex flex-col gap-2 py-[1.5rem] border-b">
         <p className="hover:underline cursor-pointer flex justify-between" onClick={clickHandlerer}>
           {getLabel(filter)}
-          <svg aria-hidden="true" focusable="false" role="presentation" class={`icon icon-caret shrink-0 w-[10px] items-center ${isOpen ? "rotate-180" : ""}`} viewBox="0 0 10 6">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
+          <svg aria-hidden="true" focusable="false" role="presentation" className={`icon icon-caret shrink-0 w-[10px] items-center ${isOpen ? "rotate-180" : ""}`} viewBox="0 0 10 6">
+            <path fillRule="evenodd" clipRule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
             </path></svg>
           </p>
         <ul className={`${isOpen ? "" : "hidden"}`}>

@@ -12,7 +12,7 @@ export function Header({header, isLoggedIn, cart}) {
         <strong>{shop.name}</strong>
       </NavLink>
       <HeaderMenu menu={menu} viewport="desktop" />
-      <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+      
     </header>
   );
 }
@@ -52,11 +52,7 @@ export function HeaderMenu({menu, viewport}) {
         if (!item.url) return null;
 
         // if the url is internal, we strip the domain
-        const url =
-          item.url.includes('myshopify.com') ||
-          item.url.includes(publicStoreDomain)
-            ? new URL(item.url).pathname
-            : item.url;
+        const url = item.url;
         return (
           <NavLink
             className="header-menu-item"
