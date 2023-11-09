@@ -170,43 +170,33 @@ export default function Collection() {
       let filteredCars = products;
     Object.keys(checkedInputs).forEach((key)=>{
 
-      let metafieldIndex;
-      
+
       checkedInputs[key].forEach((value)=>{
         urlFilter+=`${key}=${value}&`
       })      
-      
-      switch (key) {
-        case "v_robce":
-          metafieldIndex = 0
-          
-          break;
+
+// Zjjisti index metafieldu který se použije pro filtrování
+      const metafieldIndex = products[0].metafields.findIndex(prvek=>{
+        if(key === "n_jezd_pro_filtr"){
+          return prvek.key ==="mileage"
+        }else {
+          return prvek.key == key
+        }
         
-        case "model":
-          metafieldIndex = 1
-        break;
-
-        case "condition":
-          metafieldIndex = 2
-        break;
-
-        case "n_jezd_pro_filtr":
-          metafieldIndex = 3
-        break;
-      
-        default:
-          break;
-      }
-
+        });
+    
+// Najezd pro filtr je custom filtr, který se názvem liší od metafieldu productu, proto je zde podmínka if
         if(key != "n_jezd_pro_filtr"){
           filteredCars = filteredCars.filter((product)=>{
             return checkedInputs[key].includes(product.metafields[metafieldIndex].value)
           });
         } else {
-          const stringToNumber = checkedInputs[key].map(value=>parseInt(value.replace(/\D/g, '')))
-          const nejvyssiNajezd = Math.max.apply(null, stringToNumber);
+// Převede stringy nejvyšího nájezdu na čísla a vybere ten nejvyšší nájezd
+          const stringsToNumbers = checkedInputs[key].map(value=>parseInt(value.replace(/\D/g, '')))
+          const nejvyssiNajezd = Math.max.apply(null, stringsToNumbers);
           checkedInputs[key].forEach((value)=>{
-      
+
+// Jestli je vybraná možnost nad, změna podmínky ve filtrování 
            if(!value.includes("nad")) filteredCars=filteredCars.filter(product=>product.metafields[metafieldIndex].value < nejvyssiNajezd)
            else filteredCars=filteredCars.filter(product=>product.metafields[metafieldIndex].value > nejvyssiNajezd)
           })
@@ -214,7 +204,6 @@ export default function Collection() {
       
       setFilteredCars(filteredCars);
       renderFilters(filteredCars, checkedInputs)
-      console.log(filteredCars)
     })
   } else {
 
@@ -222,6 +211,8 @@ export default function Collection() {
     setFilteredCars(products)
     renderFilters(products)
   }
+
+//Nastaví url query podle vybraných inputů
   setSearchParams(urlFilter)
 
 
