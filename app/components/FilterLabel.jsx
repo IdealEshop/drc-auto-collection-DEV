@@ -23,6 +23,28 @@ export default function FilterLabel({filter, setFilter, originFilters}) {
   }
 
 
+  if(getLabel(filter)=="Značka"){
+    const znackyNaZacatek = ['Škoda', 'Volkswagen', 'Fiat', 'Mazda'];
+    let filterSort = filter.values.sort();
+
+  znackyNaZacatek.reverse().forEach((znacka) => {
+    
+  const index = filterSort.indexOf(znacka);
+    if (index !== -1) {
+      filterSort.splice(index, 1);
+      filterSort.unshift(znacka);
+    }
+  });
+  filter.values = filterSort;
+    
+
+  console.log(filterSort);
+  } else {
+    filter.values.sort();
+  }
+
+
+
      
     return (
       <div className="flex flex-col gap-2 py-[1.5rem] border-b">
@@ -32,7 +54,7 @@ export default function FilterLabel({filter, setFilter, originFilters}) {
             <path fillRule="evenodd" clipRule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
             </path></svg>
           </p>
-        <ul className={`${isOpen ? "" : "hidden"}`}>
+        <ul className={`flex flex-col ${isOpen ? "" : "hidden"}`}>
           {getLabel(filter)== "Nájezd" ? 
 
             originFilters[3].values.map((value)=>(
@@ -45,8 +67,8 @@ export default function FilterLabel({filter, setFilter, originFilters}) {
           
           :
           
-          filter.values.sort().map((value)=>(
-            <li className="flex gap-1" key={`${filter.key}.${value}`}>
+          filter.values.map((value)=>(
+            <li className="flex  gap-1" key={`${filter.key}.${value}`}>
               <input id={value} className="filter-input" data-key={filter.key} type="checkbox" onChange={setFilter}/>
               <label htmlFor={value}>{value.replace(/[\[\]"]/g, '')}</label>
 

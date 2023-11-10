@@ -80,7 +80,7 @@ export default function ProductGrid({products}) {
        {isLoading ? <LoadingSpinner/> :
       <div className='gap-4 md:gap-8 flex flex-col'>
         <ProductSorting onChange={onChangeHadler} sort={sort}/>
-        <div className="grid-flow-row grid gap-2 gap-y-6 md:gap-4 lg:gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid xl:grid-cols-3 gap-2 gap-y-6 md:gap-4 lg:gap-6 ">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

@@ -227,7 +227,7 @@ export default function Collection() {
 
 
   return (
-    <section className='flex gap-3 page-width'>
+    <section className='flex gap-[3rem] page-width'>
       <ProductFilter filters={filters} originFilters={collectionFilters} setFilter={setFiltersHandler} clearFilters={clearFilters}/>
       <ProductGrid products={filteredCars}/>
     </section>

@@ -10,7 +10,7 @@ export default function ProductFilter({filters, setFilter, originFilters, clearF
   
     return (
   
-      <section className="relative flex flex-col w-[307px] mt-[107px] p-4 shadow-[0px_5.13384px_33.8082px_rgba(0,_0,_0,_0.075)] rounded-[20px]">
+      <section className="relative flex flex-col w-[338px] mt-[107px] p-4 shadow-[0px_5.13384px_33.8082px_rgba(0,_0,_0,_0.075)] rounded-[20px]">
         <div className="w-full pb-14 border-b">
           <div className="absolute w-full left-0 top-0 p-4 shadow-[0px_5.13384px_33.8082px_rgba(0,_0,_0,_0.075)] flex justify-between rounded-[20px]">
             <span>Parametry</span>
