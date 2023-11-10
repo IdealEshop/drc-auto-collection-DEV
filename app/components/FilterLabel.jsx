@@ -10,12 +10,15 @@ export default function FilterLabel({filter, setFilter, originFilters}) {
   }
 
   function getLabel(filter){
+    console.log(filter);
     let label;
     originFilters.forEach((originFilter)=>{
       if(originFilter.id.slice(originFilter.id.lastIndexOf(".")+1) == filter.key){
          label=originFilter.label;       
       } else if(originFilter.id.slice(originFilter.id.lastIndexOf(".")+1) == "n_jezd_pro_filtr" && filter.key=="mileage") {
         label="Nájezd"
+      } else if(filter.key == "Cena") {
+        label = filter.key;
       }
       
     })
@@ -38,14 +41,11 @@ export default function FilterLabel({filter, setFilter, originFilters}) {
   filter.values = filterSort;
     
 
-  console.log(filterSort);
-  } else {
+  } else if(getLabel(filter)!="Cena"){
     filter.values.sort();
   }
 
-
-
-     
+       
     return (
       <div className="flex flex-col gap-2 py-[1.5rem] border-b">
         <p className="hover:underline cursor-pointer flex justify-between" onClick={clickHandlerer}>

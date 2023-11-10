@@ -5,9 +5,14 @@ export default function ProductFilter({filters, setFilter, originFilters, clearF
   function clickHandlerer(){
     clearFilters()
   }
-  
-    
-  
+  const priceFilter = {
+    key:"Cena",
+    values: ["do 50 000 Kč", "do 100 000 Kč", "do 250 000 Kč", "do 500 000 Kč", "do 750 000 Kč", "do 1 000 000 Kč", "do 1 250 000 Kč", "do 1 500 000 Kč", "do 1 750 000 Kč", "do 2 000 000 Kč"]
+  }
+
+  const filterWithPrice = [...filters, priceFilter];
+
+
     return (
   
       <section className="relative flex flex-col w-[338px] mt-[107px] p-4 shadow-[0px_5.13384px_33.8082px_rgba(0,_0,_0,_0.075)] rounded-[20px]">
@@ -23,7 +28,7 @@ export default function ProductFilter({filters, setFilter, originFilters, clearF
           </div>
         </div>
         <div className="flex flex-col">
-        {filters.map((filter)=>(
+        {filterWithPrice.map((filter)=>(
             filter.key !="year_production" ? <FilterLabel filter={filter} key={filter.key} originFilters={originFilters} setFilter={setFilter}/> : ""
           ))}
           
