@@ -6,7 +6,7 @@ export default function ProductFilter({filters, setFilter, originFilters, clearF
     clearFilters()
   }
   const priceFilter = {
-    key:"Cena",
+    key:"price",
     values: ["do 50 000 Kč", "do 100 000 Kč", "do 250 000 Kč", "do 500 000 Kč", "do 750 000 Kč", "do 1 000 000 Kč", "do 1 250 000 Kč", "do 1 500 000 Kč", "do 1 750 000 Kč", "do 2 000 000 Kč"]
   }
 
@@ -15,7 +15,7 @@ export default function ProductFilter({filters, setFilter, originFilters, clearF
 
     return (
   
-      <section className="relative flex flex-col w-[338px] mt-[107px] p-4 shadow-[0px_5.13384px_33.8082px_rgba(0,_0,_0,_0.075)] rounded-[20px]">
+      <section className="relative flex flex-col w-[338px] mt-[107px] p-4 shadow-[0px_5.13384px_33.8082px_rgba(0,_0,_0,_0.075)] rounded-[20px] h-fit">
         <div className="w-full pb-14 border-b">
           <div className="absolute w-full left-0 top-0 p-4 shadow-[0px_5.13384px_33.8082px_rgba(0,_0,_0,_0.075)] flex justify-between rounded-[20px]">
             <span>Parametry</span>

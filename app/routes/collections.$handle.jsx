@@ -189,12 +189,8 @@ export default function Collection() {
         });
     
 // Najezd pro filtr je custom filtr, který se názvem liší od metafieldu productu, proto je zde podmínka if
-        if(key != "n_jezd_pro_filtr"){
-          filteredCars = filteredCars.filter((product)=>{
-            return checkedInputs[key].includes(product.metafields[metafieldIndex]?.value)
-          });
-        } else {
-// Převede stringy nejvyšího nájezdu na čísla a vybere ten nejvyšší nájezd
+        if(key == "n_jezd_pro_filtr"){
+          // Převede stringy nejvyšího nájezdu na čísla a vybere ten nejvyšší nájezd
           const stringsToNumbers = checkedInputs[key].map(value=>parseInt(value.replace(/\D/g, '')))
           const nejvyssiNajezd = Math.max.apply(null, stringsToNumbers);
           checkedInputs[key].forEach((value)=>{
@@ -203,7 +199,23 @@ export default function Collection() {
            if(!value.includes("nad")) filteredCars=filteredCars.filter(product=>product.metafields[metafieldIndex].value < nejvyssiNajezd)
            else filteredCars=filteredCars.filter(product=>product.metafields[metafieldIndex].value > nejvyssiNajezd)
           })
+        } else if(key == "price") {
+
+          const stringsToNumbers = checkedInputs[key].map(value=>parseInt(value.replace(/\D/g, '')))
+          const nejvyssiCena = Math.max.apply(null, stringsToNumbers);
+   
+
+          filteredCars=filteredCars.filter(product=>{
+            const {price} = product.variants?.nodes[0] || 0;           
+            return price.amount < nejvyssiCena
+          });
+          
+        } else {
+          filteredCars = filteredCars.filter((product)=>{
+            return checkedInputs[key].includes(product.metafields[metafieldIndex]?.value)
+          });
         }
+        console.log(products);
       
       setFilteredCars(filteredCars);
       renderFilters(filteredCars, checkedInputs)
