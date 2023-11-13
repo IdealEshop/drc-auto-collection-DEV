@@ -3,30 +3,32 @@ export default function ProductSorting({onChange, sort}) {
     return (
       <div className="flex justify-end items-center gap-2">
         <label>Seřadit dle:</label>
-        <select name="sorting" onChange={onChange} value={sort}>
-        <option value="nejnovejsi">
-                Nejnovější
+        <select id="sorting" name="sorting" onChange={onChange} value={sort}>
+            <option value="nejnovejsi">
+                Přidání: Nejnovější
+            </option>
+            <option value="nejstarsi">
+                Přidání: Nejstarší
             </option>
             <option value="najezd-low">
-                Nájezdu-nejnižší
+                Nájezdu: Nejnižší
             </option>
 
             <option value="najezd-high">
-                Nájezdu-nejvyšší
+                Nájezdu: Nejvyšší
             </option>
             <option value="year-youngh">
-                Rok výroby-nejmladší
+                Rok výroby: Nejmladší
             </option>
             <option value="year-old">
-                Rok výroby-nejstarší
+                Rok výroby: Nejstarší
             </option>
-
-            {/* <option value="najezd">
+            <option value="alphabetically-A-Z">
                 Abecedně A-Z
             </option>
-            <option value="najezd">
+            <option value="alphabetically-Z-A">
                 Abecedně Z-A
-            </option> */}
+            </option> 
         </select>
       </div>
     );

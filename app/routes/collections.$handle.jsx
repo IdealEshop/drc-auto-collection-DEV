@@ -61,6 +61,7 @@ export default function Collection() {
   const { products, collectionFilters } = useLoaderData();
   const [filters, setFilters] = useState()
   const [filteredCars, setFilteredCars] = useState(products);
+  const [url, setUrl]= useState();
   const [searchParams, setSearchParams] = useSearchParams();
 
   useMemo(() => {
@@ -142,7 +143,7 @@ export default function Collection() {
 
 // Z inputů, které jsou check vytvoří objekt "checkedInputs", kde key je název souborů filtrů hodnota je array zaškrtnutých filtrů daného souboru. Například v_robce:[Audi, BMW]...
   function setFiltersHandler(event){
-    
+   
      
     let checkedInputs={};
     const inputs = document.querySelectorAll(".filter-input");
@@ -171,13 +172,15 @@ export default function Collection() {
 
     if(Object.keys(checkedInputs).length != 0){
       let filteredCars = products;
-    Object.keys(checkedInputs).forEach((key)=>{
-
-
-      checkedInputs[key].forEach((value)=>{
-        urlFilter+=`${key}=${value}&`
-      })      
-
+      Object.keys(checkedInputs).forEach((key)=>{
+        
+        
+        checkedInputs[key].forEach((value)=>{
+          urlFilter+=`${key}=${value}&`
+        })
+    
+          
+      
 // Zjjisti index metafieldu který se použije pro filtrování
       const metafieldIndex = products[0].metafields.findIndex(prvek=>{
         if(key === "n_jezd_pro_filtr"){
@@ -198,12 +201,9 @@ export default function Collection() {
 // Jestli je vybraná možnost nad, změna podmínky ve filtrování 
            if(!value.includes("nad")) filteredCars=filteredCars.filter(product=>product.metafields[metafieldIndex].value < nejvyssiNajezd)
            else filteredCars=filteredCars.filter(product=>product.metafields[metafieldIndex].value > nejvyssiNajezd)
-          })
-        } else if(key == "price") {
-
+          })} else if(key == "price") {
           const stringsToNumbers = checkedInputs[key].map(value=>parseInt(value.replace(/\D/g, '')))
           const nejvyssiCena = Math.max.apply(null, stringsToNumbers);
-   
 
           filteredCars=filteredCars.filter(product=>{
             const {price} = product.variants?.nodes[0] || 0;           
@@ -215,7 +215,6 @@ export default function Collection() {
             return checkedInputs[key].includes(product.metafields[metafieldIndex]?.value)
           });
         }
-        console.log(products);
       
       setFilteredCars(filteredCars);
       renderFilters(filteredCars, checkedInputs)
@@ -228,7 +227,9 @@ export default function Collection() {
   }
 
 //Nastaví url query podle vybraných inputů
-  setSearchParams(urlFilter)
+  setUrl(urlFilter);
+
+ 
   }
 
   function clearFilters(){
@@ -241,7 +242,7 @@ export default function Collection() {
   return (
     <section className='flex gap-[3rem] page-width'>
       <ProductFilter filters={filters} originFilters={collectionFilters} setFilter={setFiltersHandler} clearFilters={clearFilters}/>
-      <ProductGrid products={filteredCars}/>
+      <ProductGrid products={filteredCars} url={url}/>
     </section>
   );
 }
