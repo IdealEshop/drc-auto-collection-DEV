@@ -46,7 +46,7 @@ export default function ProductGrid({products, url}) {
     sessionStorage.setItem("sort", event.target.value);
   }
 
-  const yearMetafieldIndex = products[0].metafields.findIndex(prvek=>prvek.key ==="year_production");
+  const yearMetafieldIndex = products[0]?.metafields.findIndex(prvek=>prvek.key ==="year_production");
   switch (sort){
 
     case "nejnovejsi":

@@ -18,6 +18,10 @@ export default function FilterLabel({filter, setFilter, originFilters}) {
         label="Nájezd"
       } else if(filter.key == "price") {
         label = filter.key;
+      } else if(filter.key == "finance"){
+        label = "Finance";
+      } else if (filter.key == "hl_vybava_odpocetdph"){
+        label = "Odpočet DPH";
       }
       
     })
@@ -42,6 +46,8 @@ export default function FilterLabel({filter, setFilter, originFilters}) {
 
   } else if(getLabel(filter)!="Cena"){
     filter.values.sort();
+  } else if(getLabel(filter)!="Odpočet DPH"){
+    
   }
 
        

@@ -179,18 +179,31 @@ export default function Collection() {
           urlFilter+=`${key}=${value}&`
         })
     
-          
       
 // Zjjisti index metafieldu který se použije pro filtrování
-      const metafieldIndex = products[0].metafields.findIndex(prvek=>{
+      let metafieldIndex;
+
+      products[0].metafields.some((prvek, index)=>{
+       
         if(key === "n_jezd_pro_filtr"){
-          return prvek.key ==="mileage"
-        }else {
-          return prvek.key == key
+          if(prvek && prvek.key ==="mileage"){
+            metafieldIndex = index;
+            return true;
+          }
+        } else if (prvek != null){
+          if(prvek.key == key){
+            metafieldIndex= index;
+            return true;
+          }
+        } else {
+          metafieldIndex = index
+          return false;
         }
+        return false;
+      
         
         });
-    
+        console.log(metafieldIndex);
 // Najezd pro filtr je custom filtr, který se názvem liší od metafieldu productu, proto je zde podmínka if
         if(key == "n_jezd_pro_filtr"){
           // Převede stringy nejvyšího nájezdu na čísla a vybere ten nejvyšší nájezd
@@ -281,6 +294,8 @@ const COLLECTION_QUERY = `#graphql
             {namespace: "parameters", key: "drive"},
             {namespace: "custom", key: "barva"},
             {namespace: "parameters", key: "year_production"},
+            {namespace: "parameters", key: "finance"},
+            {namespace: "custom", key: "hl_vybava_odpocetdph"},
             ]) {
               key
               value
