@@ -488,3 +488,48 @@ aside li {
   margin: 0 auto;
   padding: 0 2rem;
 }
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: local(''),
+    /* Modern Browsers */ url('../../public/fonts/Poppins-Regular.ttf')
+      format('truetype')
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: local(''),
+    /* Modern Browsers */ url('../../public/fonts/Poppins-Medium.ttf')
+      format('truetype')
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: local(''),
+    /* Modern Browsers */ url('../../public/fonts/Poppins-SemiBold.ttf')
+      format('truetype')
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: local(''),
+    /* Modern Browsers */ url('../../public/fonts/Poppins-Bold.ttf')
+      format('truetype')
+}
+
+
+*{
+  font-family: 'Poppins', sans-serif;
+}

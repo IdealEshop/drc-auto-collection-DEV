@@ -15,7 +15,7 @@ export default function ProductCard({product}) {
           />
         </div>
         <div className="flex justify-between">
-          <h3 className="text-[20px] min-[761px]:max-w-[240px] font-semibold font-serif">
+          <h3 className="text-[20px] min-[761px]:max-w-[240px] font-semibold">
             {product.title.slice(0, product.title.indexOf("/"))}
           </h3>
         </div>
