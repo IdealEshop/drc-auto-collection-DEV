@@ -127,9 +127,9 @@ export default function ProductGrid({products, url}) {
 
 
   return (
-    <section className="w-full">
+    <section className="w-full pt-0">
        {isLoading ? <LoadingSpinner/> :
-      <div className='gap-4 md:gap-8 flex flex-col'>
+      <div className='gap-4 md:gap-[20px] flex flex-col'>
         <ProductSorting onChange={onChangeHadler} sort={sort}/>
         {products.length > 0 ? <div className="grid xl:grid-cols-3 gap-2 gap-y-6 md:gap-4 lg:gap-6 ">
           {products.map((product) => (

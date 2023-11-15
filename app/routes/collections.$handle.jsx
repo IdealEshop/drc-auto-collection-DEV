@@ -253,9 +253,12 @@ export default function Collection() {
 
 
   return (
-    <section className='flex gap-[3rem] page-width'>
-      <ProductFilter filters={filters} originFilters={collectionFilters} setFilter={setFiltersHandler} clearFilters={clearFilters}/>
-      <ProductGrid products={filteredCars} url={url}/>
+    <section className='page-width'>
+      <h1 className='font-normal !font-serif text-[32px] mb-[32px] mt-0 text-center'>Nabídka aut</h1>
+      <div className='flex gap-[3rem] '>
+        <ProductFilter filters={filters} originFilters={collectionFilters} setFilter={setFiltersHandler} clearFilters={clearFilters}/>
+        <ProductGrid products={filteredCars} url={url}/>
+      </div>
     </section>
   );
 }
@@ -296,6 +299,7 @@ const COLLECTION_QUERY = `#graphql
             {namespace: "parameters", key: "year_production"},
             {namespace: "parameters", key: "finance"},
             {namespace: "custom", key: "hl_vybava_odpocetdph"},
+            {namespace: "parameters", key: "power"},
             ]) {
               key
               value

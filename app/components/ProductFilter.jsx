@@ -15,7 +15,7 @@ export default function ProductFilter({filters, setFilter, originFilters, clearF
 
     return (
   
-      <section className="relative flex flex-col w-[338px] mt-[107px] p-4 shadow-[0px_5.13384px_33.8082px_rgba(0,_0,_0,_0.075)] rounded-[20px] h-fit">
+      <section className="relative flex flex-col w-[338px] mt-[73px] p-4 shadow-[0px_5.13384px_33.8082px_rgba(0,_0,_0,_0.075)] rounded-[20px] h-fit">
         <div className="w-full pb-14 border-b">
           <div className="absolute w-full left-0 top-0 p-4 shadow-[0px_5.13384px_33.8082px_rgba(0,_0,_0,_0.075)] flex justify-between rounded-[20px]">
             <span>Parametry</span>
@@ -29,7 +29,7 @@ export default function ProductFilter({filters, setFilter, originFilters, clearF
         </div>
         <div className="flex flex-col">
         {filterWithPrice.map((filter)=>(
-            filter.key !="year_production" ? <FilterLabel filter={filter} key={filter.key} originFilters={originFilters} setFilter={setFilter}/> : ""
+            filter.key !="year_production" && filter.key !="power"  ? <FilterLabel filter={filter} key={filter.key} originFilters={originFilters} setFilter={setFilter}/> : ""
           ))}
           
         </div>

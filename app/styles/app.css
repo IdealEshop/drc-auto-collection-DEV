@@ -533,3 +533,7 @@ aside li {
 *{
   font-family: 'Poppins', sans-serif;
 }
+
+select{
+  --tw-ring-shadow: 0 0 #000 !important;
+}
