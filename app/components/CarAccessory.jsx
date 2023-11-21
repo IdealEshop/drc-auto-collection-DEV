@@ -62,8 +62,7 @@ export default function CarAccessory({product}) {
             className="text-indigo_1 text-[12px] font-medium underline hover:no-underline cursor-pointer"
             onClick={handleShowAllAccessory}
           >
-            {' '}
-            + 5 dalších
+            +{accessories.length - showAccessoryCount} další
           </button>
         )}
       </div>
