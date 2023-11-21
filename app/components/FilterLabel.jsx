@@ -93,7 +93,7 @@ export default function FilterLabel({
                     onChange={setFilter}
                   />
                   <svg
-                    className="peer-checked:tw-hidden"
+                    className="peer-checked:hidden"
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
                     height="24"
@@ -111,7 +111,7 @@ export default function FilterLabel({
                     ></rect>
                   </svg>
                   <svg
-                    className="peer-checked:tw-block tw-hidden"
+                    className="peer-checked:block hidden"
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
                     height="24"

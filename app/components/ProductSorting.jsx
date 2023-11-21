@@ -1,6 +1,6 @@
 export default function ProductSorting({onChange, sort}) {
   return (
-    <div className="flex justify-end items-center gap-2">
+    <div className="flex justify-end items-center">
       <label>Seřadit dle:</label>
       <div className="flex items-center relative">
         <select

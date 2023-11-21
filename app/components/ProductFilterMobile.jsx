@@ -105,7 +105,16 @@ export default function ProductFilterMobile({
         </div>
         <div className="flex flex-col overflow-y-auto">
           {filterWithPrice.map((filter) =>
-            filter.key != 'year_production' && filter.key != 'power' ? (
+            filter.key != 'year_production' &&
+            filter.key != 'power' &&
+            filter.key != 'hl_vybava_klimatizace' &&
+            filter.key != 'hl_vybava_xenonyled' &&
+            filter.key != 'hl_vybava_parkovani' &&
+            filter.key != 'hl_vybava_tazne' &&
+            filter.key != 'hl_vybava_kuze' &&
+            filter.key != 'hl_vybava_nezavisletopeni' &&
+            filter.key != 'hl_vybava_panorama' &&
+            filter.key != 'hl_vybava_4x4' ? (
               <FilterLabel
                 filter={filter}
                 key={filter.key}

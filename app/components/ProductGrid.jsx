@@ -10,7 +10,7 @@ export default function ProductGrid({products, url}) {
   const [isLoading, setIsLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const imagePerRow = 9;
+  const imagePerRow = 12;
   const [next, setNext] = useState(imagePerRow);
 
   useEffect(() => {
@@ -134,7 +134,7 @@ export default function ProductGrid({products, url}) {
         <div className="gap-4 md:gap-[20px] flex flex-col">
           <ProductSorting onChange={onChangeHadler} sort={sort} />
 
-          <div className="grid min-[]:  grid-cols-3 gap-2 gap-y-6 md:gap-4 lg:gap-6 ">
+          <div className="grid min-[890px]:grid-cols-3 sm:grid-cols-2 grid-cols-1  gap-6">
             {products.slice(0, next).map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
@@ -144,7 +144,7 @@ export default function ProductGrid({products, url}) {
               className="mt-4 px-[30px] py-[11px] w-[250px] flex justify-center items-center bg-green_direct shrink-0 hover:bg-green_direct_darker hover:ease-in-out duration-200 self-center rounded-full"
               onClick={handleMoreCars}
             >
-              Load more
+              Načíst více aut
             </button>
           )}
         </div>

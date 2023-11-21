@@ -489,7 +489,7 @@ aside li {
 .page-width {
   max-width: 1450px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1.25rem;
 }
 
 @font-face {

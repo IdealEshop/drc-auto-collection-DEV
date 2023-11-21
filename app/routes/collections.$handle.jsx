@@ -300,6 +300,14 @@ const COLLECTION_QUERY = `#graphql
             {namespace: "parameters", key: "finance"},
             {namespace: "custom", key: "hl_vybava_odpocetdph"},
             {namespace: "parameters", key: "power"},
+            {namespace: "custom", key: "hl_vybava_4x4"},
+            {namespace: "custom", key: "hl_vybava_klimatizace"},
+            {namespace: "custom", key: "hl_vybava_xenonyled"},
+            {namespace: "custom", key: "hl_vybava_parkovani"},
+            {namespace: "custom", key: "hl_vybava_tazne"},
+            {namespace: "custom", key: "hl_vybava_kuze"},
+            {namespace: "custom", key: "hl_vybava_nezavisletopeni"},
+            {namespace: "custom", key: "hl_vybava_panorama"},
             ]) {
               key
               value
