@@ -1,26 +1,25 @@
-import { useLoaderData } from '@remix-run/react';
-import { json } from '@shopify/remix-oxygen';
-import ProductFilter from '~/components/ProductFilter';
+import {useLoaderData} from '@remix-run/react';
+import {json} from '@shopify/remix-oxygen';
+import ProductFilterDesktop from '~/components/ProductFilterDesktop';
 import ProductGrid from '../components/ProductGrid';
-import { useState, useMemo } from "react";
-import { useEffect } from 'react';
-import { useSearchParams } from '@remix-run/react';
-
-
+import {useState, useMemo} from 'react';
+import {useEffect} from 'react';
+import {useSearchParams} from '@remix-run/react';
+import ProductFilterMobile from '~/components/ProductFilterMobile';
 
 export const handle = {
   seo,
 };
 
-function seo({ data }) {
+function seo({data}) {
   return {
     title: data?.collection?.title,
     description: data?.collection?.description,
   };
 }
 
-export async function loader({ params, context }) {
-  const { handle } = params;
+export async function loader({params, context}) {
+  const {handle} = params;
 
   const productsPerPage = 250; // Počet produktů na stránku
   let products = [];
@@ -28,7 +27,7 @@ export async function loader({ params, context }) {
   let collectionFilters;
 
   while (true) {
-    const { collection } = await context.storefront.query(COLLECTION_QUERY, {
+    const {collection} = await context.storefront.query(COLLECTION_QUERY, {
       variables: {
         handle,
         first: productsPerPage,
@@ -37,7 +36,7 @@ export async function loader({ params, context }) {
     });
 
     if (!collection) {
-      throw new Response(null, { status: 404 });
+      throw new Response(null, {status: 404});
     }
 
     products = products.concat(collection.products.nodes);
@@ -52,52 +51,48 @@ export async function loader({ params, context }) {
 
   return json({
     products,
-    collectionFilters
+    collectionFilters,
   });
 }
 
 export default function Collection() {
-  
-  const { products, collectionFilters } = useLoaderData();
-  const [filters, setFilters] = useState()
+  const {products, collectionFilters} = useLoaderData();
+  const [filters, setFilters] = useState();
   const [filteredCars, setFilteredCars] = useState(products);
+  const [url, setUrl] = useState();
   const [searchParams, setSearchParams] = useSearchParams();
 
   useMemo(() => {
-    renderFilters(products)
-    
-  },[]);
+    renderFilters(products);
+  }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     lookforSearchParams();
-  },[])
+  }, []);
 
-  function lookforSearchParams(){
-    const inputs = document.querySelectorAll(".filter-input");
+  function lookforSearchParams() {
+    const inputs = document.querySelectorAll('.filter-input');
     searchParams.forEach((value, key) => {
-      inputs.forEach((input)=>{
-        
-        if(input.id == value){
+      inputs.forEach((input) => {
+        if (input.id == value) {
           input.checked = true;
         }
-      })
+      });
     });
-   
+
     setFiltersHandler();
   }
 
-   
-
   // Vytvoří filtry dle metafiledů dostupných aut
-  function renderFilters(cars, checkedInputs){
+  function renderFilters(cars, checkedInputs) {
     let carFilters = {};
-    cars.forEach(product => {
-      product.metafields.forEach(metafield => {
-        if(metafield){
+    cars.forEach((product) => {
+      product.metafields.forEach((metafield) => {
+        if (metafield) {
           if (carFilters[metafield.key]) {
             if (!carFilters[metafield.key].values.includes(metafield.value)) {
-               carFilters[metafield.key].values.push(metafield.value);
-             }
+              carFilters[metafield.key].values.push(metafield.value);
+            }
           } else {
             carFilters[metafield.key] = {
               key: metafield?.key,
@@ -105,131 +100,165 @@ export default function Collection() {
             };
           }
         }
-        
       });
     });
 
-       
     const filtersArrayByCars = Object.values(carFilters);
 
     // Pokud jsou filtry prázdné, vyplň je podle metadfieldů všech aut. - Inicializace před pervním renderem
-    if (!filters){
+    if (!filters) {
       setFilters(filtersArrayByCars);
     } else {
       // Pokud se nejedná o první render
-      let filtersWithAllBrands=[];
-      
-      filtersArrayByCars.forEach((object,index)=>{
-        // Pro filtr značka nech všechny značky z dostuponých aut pokud je eventKey výrobce
-        if(index == 1 && checkedInputs?.hasOwnProperty("v_robce")){
-          filtersWithAllBrands[index] = filters[index]
-        } else if(index == 2 && checkedInputs?.hasOwnProperty("model")){
-          filtersWithAllBrands[index] = filters[index]
-        } else {
+      let filtersWithAllBrands = [];
 
+      filtersArrayByCars.forEach((object, index) => {
+        // Pro filtr značka nech všechny značky z dostuponých aut pokud je eventKey výrobce
+        if (index == 1 && checkedInputs?.hasOwnProperty('v_robce')) {
+          filtersWithAllBrands[index] = filters[index];
+        } else if (index == 2 && checkedInputs?.hasOwnProperty('model')) {
+          filtersWithAllBrands[index] = filters[index];
+        } else {
           // Zbytek filtrů (model) uprav dle vyfiltrovaných značek
-          filtersWithAllBrands.push(object)
+          filtersWithAllBrands.push(object);
           setFilters(filtersWithAllBrands);
         }
-      })
-     
+      });
     }
-    
-
   }
 
-
-
-// Z inputů, které jsou check vytvoří objekt "checkedInputs", kde key je název souborů filtrů hodnota je array zaškrtnutých filtrů daného souboru. Například v_robce:[Audi, BMW]...
-  function setFiltersHandler(event){
-    
-     
-    let checkedInputs={};
-    const inputs = document.querySelectorAll(".filter-input");
-    inputs.forEach((input)=>{
-     if(input.checked){
-      if(checkedInputs[input.dataset.key]){
-        checkedInputs[input.dataset.key].push(input.id);
-
+  // Z inputů, které jsou check vytvoří objekt "checkedInputs", kde key je název souborů filtrů hodnota je array zaškrtnutých filtrů daného souboru. Například v_robce:[Audi, BMW]...
+  function setFiltersHandler(event) {
+    let checkedInputs = {};
+    const inputs = getInputs();
+    inputs.forEach((input) => {
+      if (input.checked) {
+        if (checkedInputs[input.dataset.key]) {
+          checkedInputs[input.dataset.key].push(input.id);
+        } else {
+          checkedInputs[input.dataset.key] = [input.id];
+        }
       } else {
-        checkedInputs[input.dataset.key]=[input.id]
-        
-      }      
-     } else {
-      if(checkedInputs[input.dataset.key]){
-        if(checkedInputs[input.dataset.key].indexOf(input.id) > 1){
-          const index = checkedInputs[input.dataset.key].indexOf(input.id)
-          checkedInputs[input.dataset.key].splice(index,1);
+        if (checkedInputs[input.dataset.key]) {
+          if (checkedInputs[input.dataset.key].indexOf(input.id) > 1) {
+            const index = checkedInputs[input.dataset.key].indexOf(input.id);
+            checkedInputs[input.dataset.key].splice(index, 1);
+          }
         }
-       }
       }
-    })
+    });
 
+    // Do proměnné filteredCars uloží všechny auta a postupně je profiltruje dle obsahu checkedInputs.
+    let urlFilter = '';
 
-// Do proměnné filteredCars uloží všechny auta a postupně je profiltruje dle obsahu checkedInputs. 
-    let urlFilter="";
-
-    if(Object.keys(checkedInputs).length != 0){
+    if (Object.keys(checkedInputs).length != 0) {
       let filteredCars = products;
-    Object.keys(checkedInputs).forEach((key)=>{
-
-
-      checkedInputs[key].forEach((value)=>{
-        urlFilter+=`${key}=${value}&`
-      })      
-
-// Zjjisti index metafieldu který se použije pro filtrování
-      const metafieldIndex = products[0].metafields.findIndex(prvek=>{
-        if(key === "n_jezd_pro_filtr"){
-          return prvek.key ==="mileage"
-        }else {
-          return prvek.key == key
-        }
-        
+      Object.keys(checkedInputs).forEach((key) => {
+        checkedInputs[key].forEach((value) => {
+          urlFilter += `${key}=${value}&`;
         });
-    
-// Najezd pro filtr je custom filtr, který se názvem liší od metafieldu productu, proto je zde podmínka if
-        if(key != "n_jezd_pro_filtr"){
-          filteredCars = filteredCars.filter((product)=>{
-            return checkedInputs[key].includes(product.metafields[metafieldIndex]?.value)
+
+        // Zjjisti index metafieldu který se použije pro filtrování
+        let metafieldIndex;
+
+        products[0].metafields.some((prvek, index) => {
+          if (key === 'n_jezd_pro_filtr') {
+            if (prvek && prvek.key === 'mileage') {
+              metafieldIndex = index;
+              return true;
+            }
+          } else if (prvek != null) {
+            if (prvek.key == key) {
+              metafieldIndex = index;
+              return true;
+            }
+          } else {
+            metafieldIndex = index;
+            return false;
+          }
+          return false;
+        });
+        // Najezd pro filtr je custom filtr, který se názvem liší od metafieldu productu, proto je zde podmínka if
+        if (key == 'n_jezd_pro_filtr') {
+          // Převede stringy nejvyšího nájezdu na čísla a vybere ten nejvyšší nájezd
+          const stringsToNumbers = checkedInputs[key].map((value) =>
+            parseInt(value.replace(/\D/g, '')),
+          );
+          const nejvyssiNajezd = Math.max.apply(null, stringsToNumbers);
+          checkedInputs[key].forEach((value) => {
+            // Jestli je vybraná možnost nad, změna podmínky ve filtrování
+            if (!value.includes('nad'))
+              filteredCars = filteredCars.filter(
+                (product) =>
+                  product.metafields[metafieldIndex].value < nejvyssiNajezd,
+              );
+            else
+              filteredCars = filteredCars.filter(
+                (product) =>
+                  product.metafields[metafieldIndex].value > nejvyssiNajezd,
+              );
+          });
+        } else if (key == 'price') {
+          const stringsToNumbers = checkedInputs[key].map((value) =>
+            parseInt(value.replace(/\D/g, '')),
+          );
+          const nejvyssiCena = Math.max.apply(null, stringsToNumbers);
+
+          filteredCars = filteredCars.filter((product) => {
+            const {price} = product.variants?.nodes[0] || 0;
+            return price.amount < nejvyssiCena;
           });
         } else {
-// Převede stringy nejvyšího nájezdu na čísla a vybere ten nejvyšší nájezd
-          const stringsToNumbers = checkedInputs[key].map(value=>parseInt(value.replace(/\D/g, '')))
-          const nejvyssiNajezd = Math.max.apply(null, stringsToNumbers);
-          checkedInputs[key].forEach((value)=>{
-
-// Jestli je vybraná možnost nad, změna podmínky ve filtrování 
-           if(!value.includes("nad")) filteredCars=filteredCars.filter(product=>product.metafields[metafieldIndex].value < nejvyssiNajezd)
-           else filteredCars=filteredCars.filter(product=>product.metafields[metafieldIndex].value > nejvyssiNajezd)
-          })
+          filteredCars = filteredCars.filter((product) => {
+            return checkedInputs[key].includes(
+              product.metafields[metafieldIndex]?.value,
+            );
+          });
         }
-      
-      setFilteredCars(filteredCars);
-      renderFilters(filteredCars, checkedInputs)
-    })
-  } else {
 
-    //Pokud není žádný filtr zaškrtnut, zobrazuej všechny produkty.
-    setFilteredCars(products)
-    renderFilters(products)
+        setFilteredCars(filteredCars);
+        renderFilters(filteredCars, checkedInputs);
+      });
+    } else {
+      //Pokud není žádný filtr zaškrtnut, zobrazuej všechny produkty.
+      setFilteredCars(products);
+      renderFilters(products);
+    }
+
+    //Nastaví url query podle vybraných inputů
+    setUrl(urlFilter);
   }
 
-//Nastaví url query podle vybraných inputů
-  setSearchParams(urlFilter)
-  }
-
-  function clearFilters(){
-    inputs.forEach(input=>input.checked=false);
+  function clearFilters() {
+    getInputs().forEach((input) => (input.checked = false));
     setFiltersHandler();
-
   }
 
+  function getInputs() {
+    return document.querySelectorAll('.filter-input');
+  }
 
   return (
-    <section className='flex gap-[3rem] page-width'>
-      <ProductFilter filters={filters} originFilters={collectionFilters} setFilter={setFiltersHandler} clearFilters={clearFilters}/>
-      <ProductGrid products={filteredCars}/>
+    <section className="page-width">
+      <h1 className="font-normal !font-serif text-[32px] mb-[32px] mt-0 text-center">
+        Nabídka aut
+      </h1>
+      <div className="flex xl:flex-row flex-col xl:gap-[3rem] gap-[2rem] ">
+        <ProductFilterMobile
+          filters={filters}
+          originFilters={collectionFilters}
+          setFilter={setFiltersHandler}
+          clearFilters={clearFilters}
+        />
+
+        <ProductFilterDesktop
+          filters={filters}
+          originFilters={collectionFilters}
+          setFilter={setFiltersHandler}
+          clearFilters={clearFilters}
+        />
+        <ProductGrid products={filteredCars} url={url} />
+      </div>
     </section>
   );
 }
@@ -268,6 +297,9 @@ const COLLECTION_QUERY = `#graphql
             {namespace: "parameters", key: "drive"},
             {namespace: "custom", key: "barva"},
             {namespace: "parameters", key: "year_production"},
+            {namespace: "parameters", key: "finance"},
+            {namespace: "custom", key: "hl_vybava_odpocetdph"},
+            {namespace: "parameters", key: "power"},
             ]) {
               key
               value
