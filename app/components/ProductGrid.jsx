@@ -17,7 +17,6 @@ export default function ProductGrid({products, url}) {
     setIsLoading(false);
     if (searchParams.size > 0) {
       searchParams.forEach((value, key) => {
-        console.log(key);
         if (key == 'sort_by') setSort(value);
       });
     } else {
@@ -135,7 +134,7 @@ export default function ProductGrid({products, url}) {
         <div className="gap-4 md:gap-[20px] flex flex-col">
           <ProductSorting onChange={onChangeHadler} sort={sort} />
 
-          <div className="grid xl:grid-cols-3 gap-2 gap-y-6 md:gap-4 lg:gap-6 ">
+          <div className="grid min-[]:  grid-cols-3 gap-2 gap-y-6 md:gap-4 lg:gap-6 ">
             {products.slice(0, next).map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

@@ -1,10 +1,11 @@
 import {useLoaderData} from '@remix-run/react';
 import {json} from '@shopify/remix-oxygen';
-import ProductFilter from '~/components/ProductFilter';
+import ProductFilterDesktop from '~/components/ProductFilterDesktop';
 import ProductGrid from '../components/ProductGrid';
 import {useState, useMemo} from 'react';
 import {useEffect} from 'react';
 import {useSearchParams} from '@remix-run/react';
+import ProductFilterMobile from '~/components/ProductFilterMobile';
 
 export const handle = {
   seo,
@@ -242,8 +243,15 @@ export default function Collection() {
       <h1 className="font-normal !font-serif text-[32px] mb-[32px] mt-0 text-center">
         Nabídka aut
       </h1>
-      <div className="flex gap-[3rem] ">
-        <ProductFilter
+      <div className="flex xl:flex-row flex-col xl:gap-[3rem] gap-[2rem] ">
+        <ProductFilterMobile
+          filters={filters}
+          originFilters={collectionFilters}
+          setFilter={setFiltersHandler}
+          clearFilters={clearFilters}
+        />
+
+        <ProductFilterDesktop
           filters={filters}
           originFilters={collectionFilters}
           setFilter={setFiltersHandler}
