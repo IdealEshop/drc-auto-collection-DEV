@@ -1,6 +1,6 @@
 import {useState} from 'react';
 
-export default function CarAccessory({product}) {
+export default function CarAccessory({product, isUsed}) {
   const [showAccessoryCount, setShowAccessoryCount] = useState(4);
   let accessories = [];
 
@@ -45,7 +45,7 @@ export default function CarAccessory({product}) {
     }
   }
 
-  if (accessories) {
+  if (accessories && isUsed) {
     return (
       <div className="flex flex-wrap gap-[8px]">
         {accessories.slice(0, showAccessoryCount).map((accessory) => (

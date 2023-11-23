@@ -2,26 +2,49 @@ import {Await, NavLink, useMatches} from '@remix-run/react';
 import {Suspense} from 'react';
 import HamburgerMenu from './HamburgerMenu';
 import logo from '../../public/images/direct-auto-logo.webp';
+import {useState, useEffect} from 'react';
 
 /**
  * @param {HeaderProps}
  */
 export function Header({header, isLoggedIn, cart}) {
   const {shop, menu} = header;
+  const [show, setShow] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  const controlNavbar = () => {
+    if (window.scrollY < lastScrollY) {
+      setShow(false);
+    } else {
+      setShow(true);
+    }
+    console.log(window.scrollY, lastScrollY, show);
+    setLastScrollY(window.scrollY);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', controlNavbar);
+
+    return () => {
+      window.removeEventListener('scroll', controlNavbar);
+    };
+  }, [lastScrollY]);
 
   return (
-    <header className="header !grid grid-cols-[1fr_1fr_1fr] page-width w-full !py-[12px] !h-[85px]">
-      <HamburgerMenu menu={menu} />
-      <NavLink
-        prefetch="intent"
-        to="/"
-        style={activeLinkStyle}
-        end
-        className="place-self-center"
-      >
-        <img src={logo} alt="logo" className="max-w-[80px]" />
-      </NavLink>
-      <HeaderMenu menu={menu} viewport="desktop" />
+    <header className={`header !  w-full  ${show || '!sticky'}`}>
+      <div className="page-width grid grid-cols-[1fr_1fr_1fr] !py-[12px] !h-[85px] w-full items-center">
+        <HamburgerMenu menu={menu} />
+        <NavLink
+          prefetch="intent"
+          to="/"
+          style={activeLinkStyle}
+          end
+          className="place-self-center"
+        >
+          <img src={logo} alt="logo" className="max-w-[80px]" />
+        </NavLink>
+        <HeaderMenu menu={menu} viewport="desktop" />
+      </div>
     </header>
   );
 }
@@ -41,7 +64,7 @@ export function HeaderMenu({menu, viewport}) {
     <nav
       className={className}
       role="navigation "
-      className="place-self-end flex gap-4"
+      className="flex gap-4 justify-self-end"
     >
       {SMALL_HEADER_MENU.items.map((item) => {
         return (

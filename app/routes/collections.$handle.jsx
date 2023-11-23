@@ -308,6 +308,7 @@ const COLLECTION_QUERY = `#graphql
             {namespace: "custom", key: "hl_vybava_kuze"},
             {namespace: "custom", key: "hl_vybava_nezavisletopeni"},
             {namespace: "custom", key: "hl_vybava_panorama"},
+            {namespace: "custom", key: "featured_installment"},
             ]) {
               key
               value

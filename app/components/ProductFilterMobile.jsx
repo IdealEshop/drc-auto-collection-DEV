@@ -114,6 +114,7 @@ export default function ProductFilterMobile({
             filter.key != 'hl_vybava_kuze' &&
             filter.key != 'hl_vybava_nezavisletopeni' &&
             filter.key != 'hl_vybava_panorama' &&
+            filter.key != 'featured_installment' &&
             filter.key != 'hl_vybava_4x4' ? (
               <FilterLabel
                 filter={filter}

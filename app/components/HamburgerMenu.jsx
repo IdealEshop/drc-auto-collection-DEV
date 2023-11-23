@@ -40,7 +40,7 @@ export default function HamburgerMenu({menu}) {
             fill="black"
           ></path>
         </svg>
-        <span className="text-[15px]">Menu</span>
+        <span className="text-[15px] max-[600px]:hidden">Menu</span>
       </div>
       {/* Opened menu */}
       <div
@@ -51,7 +51,7 @@ export default function HamburgerMenu({menu}) {
       >
         <div
           id="menu-drawer"
-          className="max-w-[298px] shadow-[0_41px_270px_#00000026,0_17.1288px_112.8px_#0000001b,0_5.13384px_33.8082px_#00000013,0_2.72654px_17.9553px_#0000000f] bg-white flex flex-col mt-5 ml-5 p-[24px] rounded-[20px]"
+          className="min-[700px]:max-w-[298px] shadow-[0_41px_270px_#00000026,0_17.1288px_112.8px_#0000001b,0_5.13384px_33.8082px_#00000013,0_2.72654px_17.9553px_#0000000f] bg-white flex flex-col mt-5 mx-5 p-[24px] rounded-[20px]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
