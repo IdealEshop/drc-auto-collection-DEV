@@ -31,7 +31,11 @@ export function Header({header, isLoggedIn, cart}) {
   }, [lastScrollY]);
 
   return (
-    <header className={`header !  w-full  ${show || '!sticky'}`}>
+    <header
+      className={`header !  w-full  ${
+        show ? '!top-[-100px]' : '!sticky top-0'
+      }`}
+    >
       <div className="page-width grid grid-cols-[1fr_1fr_1fr] !py-[12px] !h-[85px] w-full items-center">
         <HamburgerMenu menu={menu} />
         <NavLink

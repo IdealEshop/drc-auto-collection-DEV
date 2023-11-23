@@ -130,6 +130,7 @@ aside li {
   padding: 0 1rem;
   top: 0;
   z-index: 1;
+  transition: top 0.2s;
 }
 
 .header-menu-mobile-toggle {
