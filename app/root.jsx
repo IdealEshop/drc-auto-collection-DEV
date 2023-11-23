@@ -82,7 +82,7 @@ export async function loader({context}) {
   const headerPromise = storefront.query(HEADER_QUERY, {
     cache: storefront.CacheLong(),
     variables: {
-      headerMenuHandle: 'main-menu', // Adjust to your header menu handle
+      headerMenuHandle: 'hamburger-menu', // Adjust to your header menu handle
     },
   });
 

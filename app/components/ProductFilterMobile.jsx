@@ -61,7 +61,7 @@ export default function ProductFilterMobile({
                 className="flex gap-2 items-center"
                 onClick={handleClearFilter}
               >
-                <span className="text-[#5A2382] text-[15px] underline hover:no-underline">
+                <span className="text-[#5A2382] font-medium text-[15px] underline hover:no-underline">
                   Vyčistit
                 </span>
                 <svg

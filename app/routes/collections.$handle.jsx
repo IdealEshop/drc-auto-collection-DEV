@@ -240,7 +240,7 @@ export default function Collection() {
 
   return (
     <section className="page-width">
-      <h1 className="font-normal !font-serif text-[32px] mb-[32px] mt-0 text-center">
+      <h1 className="font-normal !font-serif text-[32px] mb-[32px] text-center mt-[3rem]">
         Nabídka aut
       </h1>
       <div className="flex xl:flex-row flex-col xl:gap-[3rem] gap-[2rem] ">

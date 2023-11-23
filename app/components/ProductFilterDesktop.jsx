@@ -33,7 +33,7 @@ export default function ProductFilterDesktop({
         <div className="absolute w-full left-0 top-0 p-4 shadow-[0px_5.13384px_33.8082px_rgba(0,_0,_0,_0.075)] flex justify-between rounded-[20px]">
           <span>Parametry</span>
           <button type="button" className="flex gap-2" onClick={clickHandlerer}>
-            <span className="text-[#5A2382] text-[15px] underline hover:no-underline">
+            <span className="text-[#5A2382] text-[15px] font-medium underline hover:no-underline">
               Vyčistit
             </span>
             <svg

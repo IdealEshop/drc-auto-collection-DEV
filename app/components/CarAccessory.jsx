@@ -45,13 +45,14 @@ export default function CarAccessory({product}) {
     }
   }
 
-  console.log(accessories);
-
   if (accessories) {
     return (
-      <div className="flex flex-wrap gap-[8px] z-10">
+      <div className="flex flex-wrap gap-[8px]">
         {accessories.slice(0, showAccessoryCount).map((accessory) => (
-          <p className="px-[8px] py-[2px] bg-gray_2 rounded-full text-white text-[12px] font-semibold">
+          <p
+            key={accessory}
+            className="px-[8px] py-[2px] bg-gray_2 rounded-full text-white text-[12px] font-semibold"
+          >
             {accessory}
           </p>
         ))}
