@@ -46,9 +46,9 @@ export function HeaderMenu({menu, viewport}) {
       {SMALL_HEADER_MENU.items.map((item) => {
         return (
           <NavLink
-            className="header-menu-item text-[15px]"
+            className="header-menu-item text-[15px] lg:block hidden"
             end
-            key={item.id}
+            key={item.title}
             prefetch="intent"
             style={activeLinkStyle}
             to={item.url}
@@ -116,20 +116,14 @@ const SMALL_HEADER_MENU = {
   id: 'gid://shopify/Menu/199655587896',
   items: [
     {
-      id: 'gid://shopify/MenuItem/461609566264',
-      resourceId: null,
-      tags: [],
-      title: 'Kontakty',
-      type: 'LINK',
-      url: '/policies',
-    },
-    {
-      id: 'gid://shopify/MenuItem/461609599032',
-      resourceId: 'gid://shopify/Page/92591030328',
-      tags: [],
       title: 'O nás',
       type: 'LINK',
-      url: '/pages/about',
+      url: 'https://www.direct-auto.cz/pages/o-nas',
+    },
+    {
+      title: 'Kontakty',
+      type: 'LINK',
+      url: 'https://www.direct-auto.cz/pages/kontaktujte-nas',
     },
   ],
 };
