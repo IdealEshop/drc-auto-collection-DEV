@@ -63,13 +63,18 @@ export default function ProductCard({product}) {
         </Link>
         <CardParameters product={product} />
         <CarAccessory product={product} isUsed={isUsed} />
-        <CarPrice
-          price={price}
-          compareAtPrice={compareAtPrice}
-          isDiscounted={isDiscounted}
-          isUsed={isUsed}
-          featuredInstallment={featuredInstallment}
-        />
+        <Link
+          className="!no-underline"
+          to={`https://drc-auto-dev.myshopify.com//products/${product.handle}#ie-pp-kalkulacka`}
+        >
+          <CarPrice
+            price={price}
+            compareAtPrice={compareAtPrice}
+            isDiscounted={isDiscounted}
+            isUsed={isUsed}
+            featuredInstallment={featuredInstallment}
+          />
+        </Link>
       </div>
     </div>
   );
