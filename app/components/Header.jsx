@@ -18,7 +18,6 @@ export function Header({header, isLoggedIn, cart}) {
     } else {
       setShow(true);
     }
-    console.log(window.scrollY, lastScrollY, show);
     setLastScrollY(window.scrollY);
   };
 

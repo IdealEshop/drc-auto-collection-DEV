@@ -172,7 +172,7 @@ aside li {
 * --------------------------------------------------
 */
 .footer {
-  background: var(--color-dark);
+  background: #444444;
   margin-top: auto;
 }
 
