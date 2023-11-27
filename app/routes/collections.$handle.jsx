@@ -25,6 +25,7 @@ export async function loader({params, context}) {
   let products = [];
   let cursor = null;
   let collectionFilters;
+  let wholeCollection;
 
   while (true) {
     const {collection} = await context.storefront.query(COLLECTION_QUERY, {
@@ -41,12 +42,12 @@ export async function loader({params, context}) {
 
     products = products.concat(collection.products.nodes);
 
+    collectionFilters = collection.products.filters;
     if (!collection.products.pageInfo.hasNextPage) {
       break;
     }
 
     cursor = collection.products.pageInfo.endCursor;
-    collectionFilters = collection.products.filters;
   }
 
   return json({

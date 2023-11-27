@@ -14,7 +14,7 @@ export default function FilterLabel({
 
   function getLabel(filter) {
     let label;
-    originFilters.forEach((originFilter) => {
+    originFilters?.forEach((originFilter) => {
       if (
         originFilter.id.slice(originFilter.id.lastIndexOf('.') + 1) ==
         filter.key
