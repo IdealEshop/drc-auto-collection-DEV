@@ -7,11 +7,9 @@ import {useState, useEffect} from 'react';
 /**
  * @param {HeaderProps}
  */
-export function Header({header, isLoggedIn, cart}) {
-  const {shop, menu} = header;
-  const [show, setShow] = useState(true);
+export function Header({header}) {
   const [lastScrollY, setLastScrollY] = useState(0);
-
+  const [show, setShow] = useState(true);
   const controlNavbar = () => {
     if (window.scrollY < lastScrollY) {
       setShow(false);
@@ -29,27 +27,51 @@ export function Header({header, isLoggedIn, cart}) {
     };
   }, [lastScrollY]);
 
-  return (
-    <header
-      className={`header !  w-full  ${
-        show ? '!top-[-100px]' : '!sticky top-0'
-      }`}
-    >
-      <div className="page-width grid grid-cols-[1fr_1fr_1fr] !py-[12px] !h-[85px] w-full items-center">
-        <HamburgerMenu menu={menu} />
-        <NavLink
-          prefetch="intent"
-          to="/"
-          style={activeLinkStyle}
-          end
-          className="place-self-center"
-        >
-          <img src={logo} alt="logo" className="max-w-[80px]" />
-        </NavLink>
-        <HeaderMenu menu={menu} viewport="desktop" />
-      </div>
-    </header>
-  );
+  if (header) {
+    const {shop, menu} = header;
+
+    return (
+      <header
+        className={`header !  w-full  ${
+          show ? '!top-[-100px]' : '!sticky top-0'
+        }`}
+      >
+        <div className="page-width grid grid-cols-[1fr_1fr_1fr] !py-[12px] !h-[85px] w-full items-center">
+          <HamburgerMenu menu={menu} />
+          <NavLink
+            prefetch="intent"
+            to="/"
+            style={activeLinkStyle}
+            end
+            className="place-self-center"
+          >
+            <img src={logo} alt="logo" className="max-w-[80px]" />
+          </NavLink>
+          <HeaderMenu menu={menu} viewport="desktop" />
+        </div>
+      </header>
+    );
+  } else {
+    return (
+      <header
+        className={`header !  w-full  ${
+          show ? '!top-[-100px]' : '!sticky top-0'
+        }`}
+      >
+        <div className="page-width flex !py-[12px] !h-[85px] w-full justify-center">
+          <NavLink
+            prefetch="intent"
+            to="/"
+            style={activeLinkStyle}
+            end
+            className="place-self-center"
+          >
+            <img src={logo} alt="logo" className="max-w-[80px]" />
+          </NavLink>
+        </div>
+      </header>
+    );
+  }
 }
 
 /**

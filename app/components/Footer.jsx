@@ -12,7 +12,7 @@ export function Footer({menu}) {
   return (
     <footer className="footer">
       <div className="page-width !max-w-[926px]">
-        <FooterMenu menu={menu} />
+        {menu && <FooterMenu menu={menu} />}
         <FooterBottomSection />
       </div>
     </footer>

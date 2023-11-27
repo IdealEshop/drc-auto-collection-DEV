@@ -5,7 +5,6 @@ import {Footer} from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header';
 import {CartMain} from '~/components/Cart';
 
-
 /**
  * @param {LayoutProps}
  */
@@ -19,7 +18,7 @@ export function Layout({cart, children = null, footer, header, isLoggedIn}) {
       <main>{children}</main>
       <Suspense>
         <Await resolve={footer}>
-          {(footer) => <Footer menu={footer.menu} />}
+          {(footer) => <Footer menu={footer?.menu} />}
         </Await>
       </Suspense>
     </>

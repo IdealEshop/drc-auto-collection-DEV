@@ -147,8 +147,8 @@ export function ErrorBoundary() {
       </head>
       <body>
         <Layout {...root.data}>
-          <div className="route-error">
-            <h1>Oops</h1>
+          <div className="route-error flex items-center flex-col">
+            <h1>Tato stránka neexistuje</h1>
             <h2>{errorStatus}</h2>
             {errorMessage && (
               <fieldset>
