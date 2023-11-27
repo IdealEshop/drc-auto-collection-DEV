@@ -16,7 +16,7 @@ export default function CarPrice({
   ).toLocaleString();
 
   return (
-    <div className="flex min-[1400px]:flex-row flex-col mt-auto gap-[16px]">
+    <div className="flex min-[1400px]:flex-row flex-col gap-[16px]">
       {isUsed && (
         <div className="sm:px-[16px] px-[8px] py-[8px] rounded-[20px] flex items-center border border-gray_4 shadow-[0px_4px_16px_0px_rgba(51,51,51,0.08),0px_4px_4px_0px_rgba(51,51,51,0.04)] max-[360px]:order-2  gap-[6px] w-full justify-center min-[1400px]:flex-col">
           <p className="text-[12px] font-medium">Měsíčně klidně za</p>

@@ -64,7 +64,7 @@ export default function ProductCard({product}) {
         <CardParameters product={product} />
         <CarAccessory product={product} isUsed={isUsed} />
         <Link
-          className="!no-underline"
+          className="!no-underline mt-auto"
           to={`https://drc-auto-dev.myshopify.com//products/${product.handle}#ie-pp-kalkulacka`}
         >
           <CarPrice
