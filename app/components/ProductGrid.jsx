@@ -44,7 +44,7 @@ export default function ProductGrid({products, url}) {
   }
 
   const yearMetafieldIndex = products[0]?.metafields.findIndex(
-    (prvek) => prvek.key === 'year_production',
+    (prvek) => prvek?.key === 'year_production',
   );
   switch (sort) {
     case 'nejnovejsi':
